@@ -1,0 +1,134 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddProjectMemberInput {
+  memeberEmail: String!
+  projectId: String!
+  role: UserProjectRole!
+}
+
+input CreateProjectInput {
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Feedback {
+  archived: Boolean!
+  content: String!
+  createdAt: DateTime!
+  emoji: FeedbackEmoji
+  id: String!
+  metadata: String!
+  page: String!
+  project: Project
+  source: Source
+  type: FeedbackType!
+}
+
+"""The text identifers that refer to emojies"""
+enum FeedbackEmoji {
+  happy
+  neutral
+  sad
+  veryhappy
+  verysad
+}
+
+"""The feedback types, default is an issue cuz it's more convenient"""
+enum FeedbackType {
+  idea
+  issue
+  other
+}
+
+input LoginUserInput {
+  email: String!
+  password: String!
+}
+
+type Mutation {
+  addProjectMember(addProjectMember: AddProjectMemberInput!): Project!
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  login(loginUserInput: LoginUserInput!): UserToken!
+  register(registerUserInput: RegisterUserInput!): UserToken!
+  resetPassword(email: String!): Boolean!
+  updateFeedback(updateFeedbackInput: UpdateFeedbackInput!): Feedback!
+}
+
+type Project {
+  createdAt: DateTime!
+  id: String!
+  name: String!
+  projectMember: [ProjectMember!]!
+}
+
+type ProjectMember {
+  role: UserProjectRole!
+  user: User!
+}
+
+type Query {
+  feedback(projectId: String!, skip: Int, take: Int): [Feedback!]!
+  project(id: String!): Project
+  user: User
+}
+
+input RegisterUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+enum SocialProvider {
+  githbu
+  google
+}
+
+type Source {
+  browser: String
+  country: String
+  device: SourceDevice
+  id: String!
+  os: String
+}
+
+enum SourceDevice {
+  desktop
+  smartphone
+}
+
+input UpdateFeedbackInput {
+  archived: Boolean!
+  id: String!
+}
+
+type User {
+  createdAt: DateTime!
+  email: String!
+  id: String!
+  name: String!
+  socialId: String
+  socialProvider: SocialProvider
+  userProject: [UserProject!]!
+}
+
+type UserProject {
+  project: Project!
+  role: UserProjectRole!
+}
+
+"""the role of the user on a project"""
+enum UserProjectRole {
+  admin
+  user
+}
+
+type UserToken {
+  token: String!
+  user: User!
+}

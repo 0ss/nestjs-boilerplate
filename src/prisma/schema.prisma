@@ -1,0 +1,115 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = "mysql://root@localhost:3306/feedback?schema=public"
+}
+
+model Feedback {
+  id         String          @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  projectId String          @db.VarChar(36) @map("project_id")
+  type       FeedbackType   @default(issue)
+  emoji      FeedbackEmoji? 
+  sourceId  String?         @unique @db.VarChar(36) @map("source_id")
+  content    String          @db.VarChar(1000)
+  page       String          @default("/") @db.VarChar(255)
+  metadata   String          @default("") @db.VarChar(255)
+  archived   Boolean         @default(false)
+  createdAt DateTime        @default(now()) @db.Timestamp(0) @map("created_at")
+  project    Project         @relation(fields: [projectId], references: [id])
+  source     Source?         @relation(fields: [projectId], references: [id])
+
+  
+  @@index([projectId], name: "projectId")
+}
+
+model  Project  {
+  id           String         @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  name         String         @db.VarChar(36)
+  isPaying    Bytes?         @db.Blob
+  plan         ProjectPlan   @default(free)
+  createdAt   DateTime       @default(now()) @db.Timestamp(0) @map("created_at")
+  feedback     Feedback[]
+  userProject UserProject[]
+}
+
+model Source {
+  id       String         @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  device   SourceDevice?
+  country  String?        @default("") @db.VarChar(36)
+  browser  String?        @default("") @db.VarChar(36)
+  os       String?        @default("") @db.VarChar(36)
+  feedback Feedback?
+}
+
+model User {
+  id                   String                 @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  socialId            String?                 @db.VarChar(36) @map("social_id")
+  socialProvider      UserSocialProvider?   @map("social_provider")
+  name                 String                 @db.VarChar(36)
+  email                String                 @unique @db.VarChar(120)
+  password             String?                @db.VarChar(75)
+  createdAt            DateTime               @default(now()) @db.Timestamp(0)  @map("created_at")
+  resetPasswordToken ResetPasswordToken[]
+  userProject         UserProject[]
+}
+
+model UserProject {
+  userId    String            @db.VarChar(36) @map("user_id")
+  projectId String            @db.VarChar(36) @map("project_id")
+  role       UserProjectRole @default(user)
+  project    Project           @relation(fields: [projectId], references: [id])
+  user       User              @relation(fields: [userId], references: [id])
+
+  @@id([userId, projectId])
+  @@index([projectId], name: "projectId")
+}
+
+model ResetPasswordToken {
+  id              String    @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  userId         String    @db.VarChar(36) @map("user_id")
+  token           String    @db.VarChar(36)
+  consumed        Boolean?  @default(false)
+  expired         Boolean?  @default(false)
+  expirationDate DateTime? @db.Timestamp(0) @map("expirationDate")
+  user            User      @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "userId")
+}
+
+enum FeedbackType {
+  issue
+  idea
+  other
+}
+
+enum FeedbackEmoji {
+  veryhappy
+  happy
+  neutral
+  sad
+  verysad
+}
+
+enum ProjectPlan {
+  free
+  pro
+  business
+}
+
+enum SourceDevice {
+  smartphone
+  desktop
+}
+
+enum UserProjectRole {
+  admin
+  user
+}
+
+enum UserSocialProvider {
+  google
+  github
+}

@@ -1,0 +1,121 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+input AddProjectMemberInput {
+  memeberEmail: String!
+  projectId: String!
+  role: UserProjectRole!
+}
+
+input CreateProjectInput {
+  name: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Feedback {
+  archived: Boolean!
+  content: String!
+  created_at: DateTime!
+  emoji: FeedbackEmoji
+  id: String!
+  metadata: String!
+  page: String!
+  project: Project
+  source: Source
+  type: FeedbackType!
+}
+
+"""The text identifers that refer to emojies"""
+enum FeedbackEmoji {
+  happy
+  neutral
+  sad
+  veryhappy
+  verysad
+}
+
+"""The feedback types, default is an issue cuz it's more convenient"""
+enum FeedbackType {
+  idea
+  issue
+  other
+}
+
+type Mutation {
+  addProjectMember(addProjectMember: AddProjectMemberInput!): Project!
+  createProject(createProjectInput: CreateProjectInput!): Project!
+  signupUser(signupUserInput: SignupUserInput!): UserToken!
+}
+
+enum OAuthProvider {
+  githbu
+  google
+}
+
+type Project {
+  created_at: DateTime!
+  id: String!
+  name: String!
+  projectMember: [ProjectMember!]!
+}
+
+type ProjectMember {
+  role: UserProjectRole!
+  user: User!
+}
+
+type Query {
+  feedback(projectId: String!, skip: Int, take: Int): [Feedback!]!
+  project(id: String!): Project
+  user: User!
+}
+
+input SignupUserInput {
+  email: String!
+  name: String!
+  password: String!
+}
+
+type Source {
+  browser: String
+  country: String
+  device: SourceDevice
+  id: String!
+  os: String
+}
+
+enum SourceDevice {
+  desktop
+  smartphone
+}
+
+type User {
+  created_at: DateTime!
+  email: String!
+  id: String!
+  name: String!
+  oauth_id: String
+  oauth_provider: OAuthProvider
+  userProject: [UserProject!]!
+}
+
+type UserProject {
+  project: Project!
+  role: UserProjectRole!
+}
+
+"""the role of the user on a project"""
+enum UserProjectRole {
+  admin
+  user
+}
+
+type UserToken {
+  token: String!
+  user: User!
+}
