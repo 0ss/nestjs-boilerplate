@@ -6,8 +6,15 @@ import { RegisterUserInput } from 'src/dto/register-user.input'
 import { User } from 'src/entities/user.entity'
 
 
-export const loginUserInputFactory = 1
-export const registerUserInputFactory = 1
+export const loginUserInputFactory = Factory.define<LoginUserInput>(() => ({
+    email : faker.internet.email(),
+    password: faker.internet.password(),
+}))
+export const registerUserInputFactory = Factory.define<RegisterUserInput>(() => ({
+    name: faker.name.firstName(),
+    email : faker.internet.email(),
+    password: faker.internet.password(),
+}))
 export const userFactory = Factory.define<User>(()=> ({
     id: faker.datatype.uuid(),
     socialId: null,
@@ -18,28 +25,4 @@ export const userFactory = Factory.define<User>(()=> ({
     createdAt: faker.date.past(),
 
 }))
-/**
- * 
- * @Field()
-  id: string;
-
-  @Field({ nullable: true })
-  socialId?: string;
-
-  @Field(() => SocialProvider, { nullable: true })
-  socialProvider?: 'google' | 'github';
-
-  @Field()
-  name: string;
-
-  password: string; // its not a graphql field cuz we dont wanna expose it.
-
-  @Field()
-  email: string;
-
-  @Field()
-  createdAt: Date;
-
-  @Field(() => [UserProject])
-  userProject?: UserProject[];
- */
+ 
