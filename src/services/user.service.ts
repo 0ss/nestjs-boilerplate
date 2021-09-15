@@ -1,9 +1,9 @@
-import { Injectable, Logger } from '@nestjs/common';
-import { RegisterSocialInput } from 'src/dto/register-social.input';
-import { RegisterUserInput } from 'src/dto/register-user.input';
-import { User } from 'src/entities/user.entity';
-import { isValid } from 'src/utils/is-valid';
+import { Injectable, Logger } from '@nestjs/common'; 
 import { v4 as uuid } from 'uuid';
+import { RegisterSocialInput } from '../dto/register-social.input';
+import { RegisterUserInput } from '../dto/register-user.input';
+import { User } from '../entities/user.entity';
+import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
 @Injectable()
 export class UserService {
