@@ -5,6 +5,7 @@ import { UpdateFeedbackInput } from 'src/dto/update-feedback.input';
 import { Feedback } from 'src/entities/feedback.entity';
 import { Project } from 'src/entities/project.entity';
 import { Source } from 'src/entities/source.entity';
+import { ReqSource } from 'src/interfaces/req-source.interface';
 import { isValid } from 'src/utils/is-valid';
 import { PrismaService } from './prisma.service';
 
@@ -22,10 +23,15 @@ export class FeedbackService {
     });
   }
 
-  async create(createFeedbackInput: CreateFeedbackInput): Promise<Boolean> {
-    const feedback = await this.prismaService.feedback.create({
+  async create(createFeedbackInput: CreateFeedbackInput, reqSource : ReqSource): Promise<Boolean> {
+    const feedback = await this.prismaService.source.create({
       data: {
-      ...createFeedbackInput
+        ...reqSource,
+        feedback :{
+          create :{
+            ...createFeedbackInput
+          }
+        }
       },
     });
     return !!feedback;
