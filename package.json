@@ -38,6 +38,7 @@
     "compression": "^1.7.4",
     "device-detector-js": "^2.2.10",
     "dotenv": "^10.0.0",
+    "faker": "^5.5.3",
     "geoip-country": "^4.0.86",
     "graphql": "^15.5.1",
     "helmet": "^4.6.0",
