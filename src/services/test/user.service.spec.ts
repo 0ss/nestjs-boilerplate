@@ -33,7 +33,7 @@ describe('UserService', () => {
       const user = userFactory.build(userRegisterInput);
       jest
         .spyOn(prismaService.user, 'create')
-        .mockResolvedValue(user);
+        .mockResolvedValueOnce(user)
       const result = await userService.create(userRegisterInput);
       expect(result).toEqual(user);
     });
