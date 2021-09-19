@@ -32,7 +32,7 @@ export class ProjectService {
   async addMember(
     addProjectMemberInput: AddProjectMemberInput,
     userId: string,
-  ): Promise<Project> {
+  ): Promise<ProjectMember[]> {
     await this.prismaService.userProject.create({
       data: {
         projectId: addProjectMemberInput.projectId,
@@ -40,9 +40,13 @@ export class ProjectService {
         role: addProjectMemberInput.role,
       },
     });
-    return await this.prismaService.project.findFirst({
-      where: { id: addProjectMemberInput.projectId },
-    });
+    return await this.prismaService.userProject.findMany({
+      where: { projectId: addProjectMemberInput.projectId  },
+      select: {
+        user: true,
+        role: true,
+      },
+    })
   }
 
   async findMembers(projectId: string): Promise<ProjectMember[]> {
