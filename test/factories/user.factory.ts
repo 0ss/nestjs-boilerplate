@@ -5,6 +5,7 @@ import { LoginUserInput } from 'src/dto/login-user.input'
 import { RegisterUserInput } from 'src/dto/register-user.input'
 import { User } from 'src/entities/user.entity'
 import { RegisterSocialInput } from '../../src/dto/register-social.input'
+import { random } from '../../src/utils/random'
 
 
 export const loginUserInputFactory = Factory.define<LoginUserInput>(() => ({
@@ -19,7 +20,7 @@ export const registerUserInputFactory = Factory.define<RegisterUserInput>(() => 
  
 export const registerSocialInput = Factory.define<RegisterSocialInput>(() => ({
     socialId:faker.datatype.number().toString(),
-    socialProvider:"google",
+    socialProvider:random(["gitub","google"]),
     name: faker.name.firstName(),
     email: faker.internet.email(),
 }))
