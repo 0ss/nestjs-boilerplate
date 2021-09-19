@@ -11,13 +11,6 @@ describe('UserService', () => {
   let userService: UserService;
   let prismaService: PrismaService;
 
-  const mockedRepository = {
-    create: jest.fn(),
-    findOneByEmail: jest.fn(),
-    findAndCount: jest.fn(),
-    getById: jest.fn(),
-  };
-
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       imports: [PrismaModule],
