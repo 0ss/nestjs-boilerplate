@@ -25,7 +25,10 @@ export class FeedbackResolver {
   ) {}
 
   @Query(() => [Feedback])
-  async feedback(@Args() feedbackArgs: FeedbackArgs): Promise<Feedback[]> {
+  async feedback(
+    @CurrentUser() user: User,
+    @Args() feedbackArgs: FeedbackArgs,
+  ): Promise<Feedback[]> {
     const hasProject = (await this.userProjectService.findAll(user?.id)).some(
       (_) => _.project.id === feedbackArgs.projectId,
     );
