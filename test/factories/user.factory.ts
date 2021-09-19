@@ -15,14 +15,14 @@ export const registerUserInputFactory = Factory.define<RegisterUserInput>(() => 
     email : faker.internet.email(),
     password: faker.internet.password(),
 }))
+ 
 export const userFactory = Factory.define<User>(()=> ({
-    id: faker.datatype.uuid(),
-    socialId: null,
-    socialProvider: null,
-    name: faker.name.firstName(),
-    password: faker.internet.password(),
-    email: faker.internet.email(),
-    createdAt: faker.date.past(),
-
+    id: faker.datatype.uuid()!,
+    name: faker.name.firstName()!,
+    email: faker.internet.email()!,
+    createdAt: new Date()!,
+    password: null,
+    socialId:null,
+    socialProvider:null
 }))
  

@@ -9,10 +9,10 @@ export class User {
   id: string;
 
   @Field({ nullable: true })
-  socialId?: string;
+  socialId: string | null;
 
   @Field(() => SocialProvider, { nullable: true })
-  socialProvider?: 'google' | 'github';
+  socialProvider: 'google' | 'github' | null;
 
   @Field()
   name: string;
