@@ -7,10 +7,11 @@ export class UserProjectService {
   constructor(private readonly prismaService: PrismaService) {}
   private readonly logger = new Logger(UserProjectService.name);
 
-  async findAll(id: string): Promise<UserProject[]> {
-    if (!isValid(id)) return [];
+
+  async findAll(userId: string): Promise<UserProject[]> {
+    if (!isValid(userId)) return [];
     return await this.prismaService.userProject.findMany({
-      where: { userId: id },
+      where: { userId },
       select: {
         project: true,
         role: true,
