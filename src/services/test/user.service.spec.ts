@@ -1,13 +1,11 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {
   registerUserInputFactory,
-  userFactory,
+  userFactory
 } from '../../../test/factories/user.factory';
-import { User } from '../../entities/user.entity';
 import { PrismaModule } from '../../modules/prisma.module';
 import { PrismaService } from '../prisma.service';
 import { UserService } from '../user.service';
-import * as faker from 'faker'
 
 describe('UserService', () => {
   let userService: UserService;
@@ -30,6 +28,7 @@ describe('UserService', () => {
     prismaService = module.get<PrismaService>(PrismaService);
 
   });
+
   it('should be defined', () => {
     expect(userService).toBeDefined();
   });
@@ -55,7 +54,7 @@ describe('UserService', () => {
     });
     it('should return user with given email', async () => {
       const user = userFactory.build()
-      jest.spyOn(prismaService.user,'findFirst').mockRejectedValue(user)
+      jest.spyOn(prismaService.user,'findFirst').mockResolvedValue(user)
       const result = await userService.findOneByEmail(user.email)
       expect(result).toBe(user)
     })
@@ -68,6 +67,12 @@ describe('UserService', () => {
       expect(shouldNull).toBeNull();
       expect(shouldUndefined).toBeNull();
     });
+    it('should return user with given id', async () => {
+      const user = userFactory.build()
+      jest.spyOn(prismaService.user,'findFirst').mockResolvedValue(user)
+      const result = await userService.findOneByEmail(user.id)
+      expect(result).toBe(user)
+    })
   });
 
   describe('findOneBySocialId', () => {
@@ -77,5 +82,11 @@ describe('UserService', () => {
       expect(shouldNull).toBeNull();
       expect(shouldUndefined).toBeNull();
     });
+    it('should return user with given social id', async () => {
+      const user = userFactory.build()
+      jest.spyOn(prismaService.user,'findFirst').mockResolvedValue(user)
+      const result = await userService.findOneByEmail(user.id)
+      expect(result).toBe(user)
+    })
   });
 });
