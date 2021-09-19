@@ -1,5 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {
+  registerSocialInputFactory,
   registerUserInputFactory,
   userFactory
 } from '../../../test/factories/user.factory';
@@ -37,6 +38,19 @@ describe('UserService', () => {
       expect(result).toEqual(user);
     });
   });
+
+  describe('createWithSocial', () => {
+    it('should create new user', async () => {
+      const registerSocialInput = registerSocialInputFactory.build()
+      const user = userFactory.build(registerSocialInput);
+      jest
+        .spyOn(prismaService.user, 'create')
+        .mockResolvedValue(user);
+      const result = await userService.createWithSocial(registerSocialInput);
+      expect(result).toEqual(user);
+    });
+  });
+
 
   describe('findOneByEmail', () => {
     it('should return null when email is null or undefined', async () => {

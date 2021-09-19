@@ -18,7 +18,7 @@ export const registerUserInputFactory = Factory.define<RegisterUserInput>(() => 
     password: faker.internet.password(),
 }))
  
-export const registerSocialInput = Factory.define<RegisterSocialInput>(() => ({
+export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(() => ({
     socialId:faker.datatype.number().toString(),
     socialProvider:random(["gitub","google"]),
     name: faker.name.firstName(),
