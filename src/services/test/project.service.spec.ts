@@ -43,7 +43,6 @@ describe('ProjectService', () => {
 
   describe('findOne', () => {
     it('should find project', async () => {
-      
       const project = projectFactory.build();
       jest
         .spyOn(prismaService.project, 'findFirst')
@@ -54,6 +53,37 @@ describe('ProjectService', () => {
     it('should return null when project id is not valid', async () => {
       const invalid = await projectService.findOne(undefined);
       expect(invalid).toBeNull();
+    });
+  });
+
+  describe('findMembers', () => {
+    it('should return empty array when project id is not valid', async () => {
+      const invalid = await projectService.findMembers(undefined);
+      expect(invalid).toHaveLength(0)
+    });
+
+    it('should find project members', async () => {
+      const user = userFactory.build();
+      const project = projectFactory.build();
+      const projectMember = projectMemberFactory.build({user});
+
+      jest.spyOn(prismaService.userProject, 'findMany').mockResolvedValueOnce([
+        {
+          projectId: project.id,
+          role: projectMember.role,
+          userId: projectMember.user.id,
+        },
+      ]);
+
+      const result = await projectService.findMembers(project.id);
+
+      expect(result).toEqual([
+        {
+          projectId: project.id,
+          role: projectMember.role,
+          userId: projectMember.user.id,
+        },
+      ]);
     });
   });
 
