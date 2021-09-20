@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { AddProjectMemberInput } from 'src/dto/add-project-member.input';
-import { Project } from 'src/entities/project.entity';
+import { AddProjectMemberInput } from '../dto/add-project-member.input';
+import { Project } from '../entities/project.entity';
 import { ProjectMember } from 'src/entities/projectmember.entity';
-import { isValid } from 'src/utils/is-valid';
+import { isValid } from '../utils/is-valid';
 import { v4 as uuid } from 'uuid';
 import { CreateProjectInput } from '../dto/create-project.input';
 import { PrismaService } from './prisma.service';
