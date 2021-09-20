@@ -1,6 +1,5 @@
-import { Field, ObjectType } from "@nestjs/graphql";
-
-
+import { Field, ObjectType } from '@nestjs/graphql';
+import { Feedback } from './feedback.entity';
 
 @ObjectType()
 export class Project {
@@ -12,6 +11,7 @@ export class Project {
 
   @Field()
   createdAt: Date;
- 
+
+  @Field(() => [Feedback], { nullable: true })
+  feedback?: Feedback[];
 }
- 
