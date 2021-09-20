@@ -15,6 +15,7 @@ export class ProjectService {
     createProjectInput: CreateProjectInput,
     userId: string,
   ): Promise<Project> {
+
     return await this.prismaService.project.create({
       data: {
         id: uuid(),
@@ -62,6 +63,6 @@ export class ProjectService {
 
   async findOne(id: string): Promise<Project | null> {
     if (!isValid(id)) return null;
-    return await this.prismaService.project.findFirst({ where: { id } });
+    return (await this.prismaService.project.findFirst({ where: { id } }))
   }
 }

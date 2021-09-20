@@ -1,3 +1,4 @@
+import { ProjectPlan } from '.prisma/client';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable, Logger } from '@nestjs/common';
 
@@ -21,3 +22,4 @@ export class EmailService {
     }
   }
 }
+ 

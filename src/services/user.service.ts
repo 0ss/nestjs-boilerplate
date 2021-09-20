@@ -15,7 +15,6 @@ export class UserService {
     // });
   }
   private readonly logger = new Logger(UserService.name);
-
   async create(registerUserInput: RegisterUserInput): Promise<User | null> {
     const { email, name, password } = registerUserInput;
     return await this.prismaService.user.create({
