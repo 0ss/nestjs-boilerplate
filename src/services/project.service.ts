@@ -40,7 +40,11 @@ export class ProjectService {
         userId: userId,
         role: addProjectMemberInput.role,
       },
-    });
+      select :{
+        user:true,
+        role:true,
+      }
+    })
     return await this.prismaService.userProject.findMany({
       where: { projectId: addProjectMemberInput.projectId  },
       select: {
