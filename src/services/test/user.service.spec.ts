@@ -54,10 +54,8 @@ describe('UserService', () => {
 
   describe('findOneByEmail', () => {
     it('should return null when email is null or undefined', async () => {
-      const shouldNull = await userService.findOneByEmail(null);
-      const shouldUndefined = await userService.findOneByEmail(undefined);
-      expect(shouldNull).toBeNull();
-      expect(shouldUndefined).toBeNull();
+      const invalid = await userService.findOneByEmail(undefined);
+      expect(invalid).toBeNull();
     });
     it('should return user with given email', async () => {
       const user = userFactory.build()
@@ -68,11 +66,9 @@ describe('UserService', () => {
   });
 
   describe('findOneById', () => {
-    it('should return null when email is null or undefined', async () => {
-      const shouldNull = await userService.findOneById(null);
-      const shouldUndefined = await userService.findOneById(undefined);
-      expect(shouldNull).toBeNull();
-      expect(shouldUndefined).toBeNull();
+    it('should return null when email is invalid', async () => {
+      const invalid = await userService.findOneById(undefined);
+      expect(invalid).toBeNull();
     });
     it('should return user with given id', async () => {
       const user = userFactory.build()
@@ -84,10 +80,8 @@ describe('UserService', () => {
 
   describe('findOneBySocialId', () => {
     it('should return null when email is null or undefined', async () => {
-      const shouldNull = await userService.findOneBySocialId(null);
-      const shouldUndefined = await userService.findOneById(undefined);
-      expect(shouldNull).toBeNull();
-      expect(shouldUndefined).toBeNull();
+      const invalid = await userService.findOneBySocialId(undefined);
+      expect(invalid).toBeNull();
     });
     it('should return user with given social id', async () => {
       const user = userFactory.build()
