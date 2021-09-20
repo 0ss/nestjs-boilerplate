@@ -2,102 +2,100 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator nestgraphql {
+  provider = "node ../node_modules/prisma-nestjs-graphql"
+  output   = "../@generated/prisma-nestjs-graphql"
+}
+
 datasource db {
   provider = "mysql"
   url      = "mysql://root@localhost:3306/feedback?schema=public"
 }
 
-generator nestgraphql {
-    provider = "node ../node_modules/prisma-nestjs-graphql"
-    output = "../@generated/prisma-nestjs-graphql"
-}
-
 model Feedback {
-  id         String          @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
-  projectId String          @db.VarChar(36) @map("project_id")
-  type       FeedbackType   @default(issue)
-  emoji      FeedbackEmoji? 
-  sourceId  String?         @unique @db.VarChar(36) @map("source_id")
-  content    String          @db.VarChar(1000)
-  page       String          @default("/") @db.VarChar(255)
-  metadata   String          @default("") @db.VarChar(255)
-  archived   Boolean         @default(false)
-  createdAt DateTime        @default(now()) @db.Timestamp(0) @map("created_at")
-  project    Project         @relation(fields: [projectId], references: [id])
-  source     Source?         @relation(fields: [projectId], references: [id])
+  id        String         @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  projectId String         @map("project_id") @db.VarChar(36)
+  type      FeedbackType   @default(issue)
+  emoji     FeedbackEmoji?
+  sourceId  String?        @unique @map("source_id") @db.VarChar(36)
+  content   String         @db.VarChar(1000)
+  page      String         @default("/") @db.VarChar(255)
+  metadata  String         @default("") @db.VarChar(255)
+  archived  Boolean        @default(false)
+  createdAt DateTime       @default(now()) @map("created_at") @db.Timestamp(0)
+  project   Project        @relation(fields: [projectId], references: [id])
+  source    Source?        @relation("feedbackTosource", fields: [sourceId], references: [id])
 
+  @@index([projectId], name: "project_id")
   @@map("feedback")
-  @@index([projectId], name: "projectId")
 }
 
-model  Project  {
-  id           String         @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
-  name         String         @db.VarChar(36)
-  isPaying    Bytes?         @db.Blob
-  plan         ProjectPlan   @default(free)
-  createdAt   DateTime       @default(now()) @db.Timestamp(0) @map("created_at")
-  feedback     Feedback[]
+model Project {
+  id          String        @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  name        String        @db.VarChar(36)
+  isPaying   Boolean       @default(false)  @map("is_paying")
+  plan        ProjectPlan   @default(free)
+  createdAt   DateTime      @default(now()) @map("created_at") @db.Timestamp(0)
+  feedback    Feedback[]
   userProject UserProject[]
 
   @@map("project")
-
 }
 
 model Source {
-  id       String         @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  id       String        @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
   device   SourceDevice?
-  country  String?        @default("") @db.VarChar(36)
-  browser  String?        @default("") @db.VarChar(36)
-  os       String?        @default("") @db.VarChar(36)
-  feedback Feedback?
-  @@map("source")
+  country  String?       @default("") @db.VarChar(36)
+  browser  String?       @default("") @db.VarChar(36)
+  os       String?       @default("") @db.VarChar(36)
+  feedback Feedback?     @relation("feedbackTosource")
 
+  @@map("source")
 }
 
 model User {
-  id                   String                 @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
-  socialId            String?                 @db.VarChar(36) @map("social_id")
-  socialProvider      UserSocialProvider?   @map("social_provider")
-  name                 String                 @db.VarChar(36)
-  email                String                 @unique @db.VarChar(120)
-  password             String?                @db.VarChar(75)
-  createdAt            DateTime               @default(now()) @db.Timestamp(0)  @map("created_at")
+  id                 String               @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  socialId           String?              @map("social_id") @db.VarChar(36)
+  socialProvider     UserSocialProvider?  @map("social_provider")
+  name               String               @db.VarChar(36)
+  email              String               @unique @db.VarChar(120)
+  password           String?              @db.VarChar(75)
+  createdAt          DateTime             @default(now()) @map("created_at") @db.Timestamp(0)
   resetPasswordToken ResetPasswordToken[]
-  userProject         UserProject[]
-  @@map("user")
+  userProject        UserProject[]
 
+  @@map("user")
 }
 
 model UserProject {
-  userId    String            @db.VarChar(36) @map("user_id")
-  projectId String            @db.VarChar(36) @map("project_id")
-  role       UserProjectRole @default(user)
-  project    Project           @relation(fields: [projectId], references: [id])
-  user       User              @relation(fields: [userId], references: [id])
+  userId    String          @map("user_id") @db.VarChar(36)
+  projectId String          @map("project_id") @db.VarChar(36)
+  role      UserProjectRole @default(user)
+  project   Project         @relation(fields: [projectId], references: [id])
+  user      User            @relation(fields: [userId], references: [id])
 
   @@id([userId, projectId])
-  @@index([projectId], name: "projectId")
+  @@index([projectId], name: "project_id")
   @@map("user_project")
-
 }
 
 model ResetPasswordToken {
-  id              String    @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
-  userId         String    @db.VarChar(36) @map("user_id")
-  token           String    @db.VarChar(36)
-  consumed        Boolean?  @default(false)
-  expired         Boolean?  @default(false)
-  expirationDate DateTime? @db.Timestamp(0) @map("expiration_date")
-  user            User      @relation(fields: [userId], references: [id])
+  id             String    @id @default(dbgenerated("(uuid())")) @db.VarChar(36)
+  userId         String    @map("user_id") @db.VarChar(36)
+  token          String    @db.VarChar(36)
+  consumed       Boolean?  @default(false)
+  expired        Boolean?  @default(false)
+  expirationDate DateTime? @map("expiration_date") @db.Timestamp(0)
+  user           User      @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "user_id")
   @@map("reset_password_token")
-  @@index([userId], name: "userId")
 }
 
 enum FeedbackType {
   issue
   idea
   other
-  
 }
 
 enum FeedbackEmoji {
