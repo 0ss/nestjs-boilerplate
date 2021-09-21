@@ -6,22 +6,22 @@ import {
   ResolveField,
   Parent,
 } from '@nestjs/graphql';
-import { ProjectService } from 'src/services/project.service';
-import { CreateProjectInput } from 'src/dto/create-project.input';
-import { Project } from 'src/entities/project.entity';
-import { CurrentUser } from 'src/decorators/currentuser.decorator';
-import { User } from 'src/entities/user.entity';
+import { ProjectService } from '../services/project.service';
+import { CreateProjectInput } from '../dto/create-project.input';
+import { Project } from '../entities/project.entity';
+import { CurrentUser } from '../decorators/currentuser.decorator';
+import { User } from '../entities/user.entity';
 import {
   Logger,
   NotFoundException,
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { UserFromRequest } from 'src/interfaces/user-from-request.interface';
-import { ProjectMember } from 'src/entities/projectmember.entity';
-import { AddProjectMemberInput } from 'src/dto/add-project-member.input';
+import { UserFromRequest } from '../interfaces/user-from-request.interface';
+import { ProjectMember } from '../entities/projectmember.entity';
+import { AddProjectMemberInput } from '../dto/add-project-member.input';
 import { UserInputError } from 'apollo-server-express';
-import { UserService } from 'src/services/user.service';
+import { UserService } from '../services/user.service';
 
 @Resolver(() => Project)
 export class ProjectResolver {
@@ -62,7 +62,7 @@ export class ProjectResolver {
     @CurrentUser() user: UserFromRequest,
     @Args('addProjectMember')
     addProjectMemberInput: AddProjectMemberInput,
-  ) : Promise<Project> {
+  ) : Promise<ProjectMember[]> {
     const project = await this.projectService.findOne(
       addProjectMemberInput.projectId,
     );

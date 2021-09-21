@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare as comparePassword } from 'bcrypt';
-import { LoginUserInput } from 'src/dto/login-user.input';
-import { RegisterSocialInput } from 'src/dto/register-social.input';
-import { RegisterUserInput } from 'src/dto/register-user.input';
-import { User } from 'src/entities/user.entity';
-import { tomorrow } from 'src/utils/tomorrow';
+import { LoginUserInput } from '../dto/login-user.input';
+import { RegisterSocialInput } from '../dto/register-social.input';
+import { RegisterUserInput } from '../dto/register-user.input';
+import { User } from '../entities/user.entity';
+import { tomorrow } from '../utils/tomorrow';
 import { v4 as uuid } from 'uuid';
 import { PrismaService } from './prisma.service';
 import { UserService } from './user.service';

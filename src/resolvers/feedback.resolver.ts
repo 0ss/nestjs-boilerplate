@@ -8,10 +8,10 @@ import {
   ResolveField,
   Resolver,
 } from '@nestjs/graphql';
-import { FeedbackArgs } from 'src/dto/feedback.args';
-import { UpdateFeedbackInput } from 'src/dto/update-feedback.input';
-import { Project } from 'src/entities/project.entity';
-import { Source } from 'src/entities/source.entity';
+import { FeedbackArgs } from '../dto/feedback.args';
+import { UpdateFeedbackInput } from '../dto/update-feedback.input';
+import { Project } from '../entities/project.entity';
+import { Source } from '../entities/source.entity';
 import { CurrentUser } from '../decorators/currentuser.decorator';
 import { Feedback } from '../entities/feedback.entity';
 import { FeedbackService } from '../services/feedback.service';
