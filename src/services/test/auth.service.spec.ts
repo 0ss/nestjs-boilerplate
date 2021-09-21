@@ -1,37 +1,44 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import {
+    loginUserInputFactory,
   registerSocialInputFactory,
   registerUserInputFactory,
-  userFactory
+  userFactory,
 } from '../../../test/factories/user.factory';
 import { PrismaModule } from '../../modules/prisma.module';
+import { UserModule } from '../../modules/user.module';
 import { AuthService } from '../auth.service';
 import { PrismaService } from '../prisma.service';
 import { UserService } from '../user.service';
 
 describe('AuthService', () => {
   let authService: AuthService;
+  let userService: UserService;
   let prismaService: PrismaService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      imports: [PrismaModule],
+      imports: [PrismaModule, UserModule],
       providers: [AuthService],
     }).compile();
 
     authService = module.get<AuthService>(AuthService);
+    userService = module.get<UserService>(UserService);
     prismaService = module.get<PrismaService>(PrismaService);
-
   });
 
   it('should be defined', () => {
     expect(AuthService).toBeDefined();
   });
 
-  describe('', () => {
-    it('', async () => {
-       
+  describe('validateCredentials', () => {
+    it('it should return true on true credentials', async () => {
+        const loginUserInput = loginUserInputFactory.build()
+        const user = userFactory.build(loginUserInput)
+        jest.spyOn(userService,'findOneByEmail').mockRejectedValueOnce(user)
+        const result = authService.validateCredentials(loginUserInput)
+        console.log(result)
+        expect(result).toBe(user)
     });
   });
- 
 });
