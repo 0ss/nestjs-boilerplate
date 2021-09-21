@@ -1,5 +1,5 @@
 import { ObjectType, Field, Int } from '@nestjs/graphql';
-import { SourceDevice } from 'src/enums/source-device.enum';
+import { SourceDevice } from '../enums/source-device.enum';
 
 @ObjectType()
 export class Source {

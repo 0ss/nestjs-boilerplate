@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { AddProjectMemberInput } from '../dto/add-project-member.input';
 import { Project } from '../entities/project.entity';
-import { ProjectMember } from 'src/entities/projectmember.entity';
+import { ProjectMember } from '../entities/projectmember.entity';
 import { isValid } from '../utils/is-valid';
 import { v4 as uuid } from 'uuid';
 import { CreateProjectInput } from '../dto/create-project.input';

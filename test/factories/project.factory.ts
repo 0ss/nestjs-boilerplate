@@ -1,9 +1,6 @@
 
 import * as faker from 'faker'
 import { Factory } from 'fishery'
-import { LoginUserInput } from 'src/dto/login-user.input'
-import { RegisterUserInput } from 'src/dto/register-user.input'
-import { User } from 'src/entities/user.entity'
 import { AddProjectMemberInput } from '../../src/dto/add-project-member.input'
 import { CreateProjectInput } from '../../src/dto/create-project.input'
 import { RegisterSocialInput } from '../../src/dto/register-social.input'

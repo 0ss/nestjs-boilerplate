@@ -4,7 +4,7 @@ https://docs.nestjs.com/middleware#middleware
 
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { UserProjectService } from 'src/services/user-project.service';
+import { UserProjectService } from '../services/user-project.service';
 import { User } from '../entities/user.entity';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';

@@ -1,6 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Exclude } from 'class-transformer';
-import { SocialProvider } from 'src/enums/social-provider.enum';
+import { SocialProvider } from '../enums/social-provider.enum';
 import { UserProject } from './userproject.entity';
 
 @ObjectType()

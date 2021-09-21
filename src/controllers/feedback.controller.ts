@@ -3,9 +3,9 @@ https://docs.nestjs.com/controllers#controllers
 */
 
 import { Controller, Post, Req } from '@nestjs/common';
-import { CreateFeedbackInput } from 'src/dto/create-feedback.input';
-import { FeedbackService } from 'src/services/feedback.service';
-import { getReqSource } from 'src/utils/get-req-source';
+import { CreateFeedbackInput } from '../dto/create-feedback.input';
+import { FeedbackService } from '../services/feedback.service';
+import { getReqSource } from '../utils/get-req-source';
 import { Request } from 'express';
 
 @Controller()

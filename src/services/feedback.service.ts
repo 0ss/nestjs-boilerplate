@@ -1,12 +1,12 @@
 import { Injectable } from '@nestjs/common';
-import { CreateFeedbackInput } from 'src/dto/create-feedback.input';
-import { FeedbackArgs } from 'src/dto/feedback.args';
-import { UpdateFeedbackInput } from 'src/dto/update-feedback.input';
-import { Feedback } from 'src/entities/feedback.entity';
-import { Project } from 'src/entities/project.entity';
-import { Source } from 'src/entities/source.entity';
-import { ReqSource } from 'src/interfaces/req-source.interface';
-import { isValid } from 'src/utils/is-valid';
+import { CreateFeedbackInput } from '../dto/create-feedback.input';
+import { FeedbackArgs } from '../dto/feedback.args';
+import { UpdateFeedbackInput } from '../dto/update-feedback.input';
+import { Feedback } from '../entities/feedback.entity';
+import { Project } from '../entities/project.entity';
+import { Source } from '../entities/source.entity';
+import { ReqSource } from '../interfaces/req-source.interface';
+import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
 
 @Injectable()

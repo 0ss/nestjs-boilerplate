@@ -1,6 +1,6 @@
 
 import { Field, ObjectType } from '@nestjs/graphql';
-import { UserProjectRole } from 'src/enums/userproject-role.enum';
+import { UserProjectRole } from '../enums/userproject-role.enum';
 import { Project } from './project.entity';
 
 @ObjectType()

@@ -3,7 +3,7 @@ import DeviceDetector from "device-detector-js"
 import { Request } from "express";
 import geoip from 'geoip-country'
 import requestIp from 'request-ip'
-import { ReqSource } from "src/interfaces/req-source.interface";
+import { ReqSource } from "../interfaces/req-source.interface";
 
 const publicIp = require('public-ip');
 

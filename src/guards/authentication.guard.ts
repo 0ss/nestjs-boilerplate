@@ -5,9 +5,9 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
-import { User } from 'src/entities/user.entity';
-import { AuthService } from 'src/services/auth.service';
-import { UserService } from 'src/services/user.service';
+import { User } from '../entities/user.entity';
+import { AuthService } from '../services/auth.service';
+import { UserService } from '../services/user.service';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {

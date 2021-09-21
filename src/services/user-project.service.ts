@@ -1,6 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { UserProject } from 'src/entities/userproject.entity';
-import { isValid } from 'src/utils/is-valid';
+import { UserProject } from '../entities/userproject.entity';
+import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
 @Injectable()
 export class UserProjectService {

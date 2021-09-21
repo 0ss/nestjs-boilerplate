@@ -1,6 +1,6 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { FeedbackEmoji } from 'src/enums/feedback-emoji.enum';
-import { FeedbackType } from 'src/enums/feedback-type.enum';
+import { FeedbackEmoji } from '../enums/feedback-emoji.enum';
+import { FeedbackType } from '../enums/feedback-type.enum';
 
 @InputType()
 export class CreateFeedbackInput {
