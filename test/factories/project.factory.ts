@@ -29,10 +29,15 @@ export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(()
     email: faker.internet.email(),
 }))
  
-
+export const projectMember = Factory.define<ProjectMember>(() => ({
+    role:random(['user','admin']),
+    user: userFactory.build()
+}))
 export const projectFactory = Factory.define<Project>(()=> ({
     id: faker.datatype.uuid(),
     name: faker.name.firstName(),
+    isPaying: random([true,false]),
+    plan:random(['free','pro','business']),
     createdAt: new Date(),
 }))
  
