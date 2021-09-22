@@ -1,38 +1,38 @@
-
-import * as faker from 'faker'
-import { Factory } from 'fishery'
-import { LoginUserInput } from 'src/dto/login-user.input'
-import { RegisterUserInput } from 'src/dto/register-user.input'
-import { User } from 'src/entities/user.entity'
-import { RegisterSocialInput } from '../../src/dto/register-social.input'
-import { random } from '../../src/utils/random'
-
+import * as faker from 'faker';
+import { Factory } from 'fishery';
+import { LoginUserInput } from 'src/dto/login-user.input';
+import { RegisterUserInput } from 'src/dto/register-user.input';
+import { User } from 'src/entities/user.entity';
+import { RegisterSocialInput } from '../../src/dto/register-social.input';
+import { random } from '../../src/utils/random';
 
 export const loginUserInputFactory = Factory.define<LoginUserInput>(() => ({
-    email : faker.internet.email(),
-    password: faker.internet.password(),
-}))
-export const registerUserInputFactory = Factory.define<RegisterUserInput>(() => ({
-    name: faker.name.firstName(),
-    email : faker.internet.email(),
-    password: faker.internet.password(),
-}))
- 
-export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(() => ({
-    socialId:faker.datatype.number().toString(),
-    socialProvider:random(["gitub","google"]),
+  email: faker.internet.email(),
+  password: faker.internet.password(),
+}));
+export const registerUserInputFactory = Factory.define<RegisterUserInput>(
+  () => ({
     name: faker.name.firstName(),
     email: faker.internet.email(),
-}))
- 
+    password: faker.internet.password(),
+  }),
+);
 
-export const userFactory = Factory.define<User>(()=> ({
-    id: faker.datatype.uuid(),
+export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(
+  () => ({
+    socialId: faker.datatype.number().toString(),
+    socialProvider: random(['gitub', 'google']),
     name: faker.name.firstName(),
     email: faker.internet.email(),
-    createdAt: new Date()!,
-    password: faker.internet.password(),
-    socialId:faker.datatype.number().toString(),
-    socialProvider:"google"
-}))
- 
+  }),
+);
+
+export const userFactory = Factory.define<User>(() => ({
+  id: faker.datatype.uuid(),
+  name: faker.name.firstName(),
+  email: faker.internet.email(),
+  createdAt: new Date()!,
+  password: faker.internet.password(),
+  socialId: faker.datatype.number().toString(),
+  socialProvider: 'google',
+}));

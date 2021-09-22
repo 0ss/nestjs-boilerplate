@@ -1,7 +1,4 @@
-
-
-
-require('dotenv').config()
+require('dotenv').config();
 export const APP_URL = `http://localhost:${process.env.PORT}`;
 export const APP_GRAPHQL_URL = `http://localhost:${process.env.PORT}/api/graphql`;
 export const TESTER_EMAIL = 'salah-tester@tester.com';
