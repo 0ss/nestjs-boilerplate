@@ -21,7 +21,7 @@ export const registerUserInputFactory = Factory.define<RegisterUserInput>(
 export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(
   () => ({
     socialId: faker.datatype.number().toString(),
-    socialProvider: random(['gitub', 'google']),
+    socialProvider: random(['github', 'google']),
     name: faker.name.firstName(),
     email: faker.internet.email(),
   }),

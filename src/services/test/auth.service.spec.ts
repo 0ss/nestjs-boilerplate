@@ -5,6 +5,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { hashSync } from 'bcrypt';
 import {
   loginUserInputFactory,
+  registerSocialInputFactory,
   userFactory,
 } from '../../../test/factories/user.factory';
 import { AuthService } from '../auth.service';
@@ -38,7 +39,7 @@ describe('AuthService', () => {
   });
 
   describe('validateCredentials', () => {
-    it('it should return true on true credentials', async () => {
+    it('should return true on true credentials', async () => {
       const loginUserInput = loginUserInputFactory.build();
       const user = userFactory.build({
         ...loginUserInput,
@@ -48,7 +49,7 @@ describe('AuthService', () => {
       const result = await authService.validateCredentials(loginUserInput);
       expect(result).toBe(user);
     });
-    it('it should throw error when credentials not matched', async () => {
+    it('should throw error when credentials not matched', async () => {
       const loginUserInput = loginUserInputFactory.build();
       const user = userFactory.build();
       jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(user);
@@ -57,4 +58,40 @@ describe('AuthService', () => {
       }).rejects.toThrow('credentials are not valid');
     });
   });
+  describe('loginSocial', () => {
+    it('should retun user when found', async () => {
+      const user = userFactory.build();
+      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(user);
+      const result = await authService.loginSocial(user.socialId);
+      expect(result).toBe(user);
+    });
+
+    it('it should throw when user not found', async () => {
+      const user = userFactory.build();
+      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(null);
+      await expect(async () => {
+        await authService.loginSocial(user.socialId);
+      }).rejects.toThrow('Email is not registered');
+    });
+  });
+
+  describe('registerSocial', () => {
+    it('should register user from social', async () => {
+      const registerSocialInput = registerSocialInputFactory.build()
+      const user = userFactory.build({...registerSocialInput,password:null});
+      jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(null);
+      jest.spyOn(userService, 'createWithSocial').mockResolvedValueOnce(user);
+      const result = await authService.registerSocial(registerSocialInput);
+      expect(result).toBe(user);
+    });
+
+    it('it should throw when user not found', async () => {
+      const user = userFactory.build();
+      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(null);
+      await expect(async () => {
+        await authService.loginSocial(user.socialId);
+      }).rejects.toThrow('Email is not registered');
+    });
+  });
+
 });
