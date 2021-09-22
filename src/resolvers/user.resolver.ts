@@ -19,7 +19,6 @@ export class UserResolver {
   @UseGuards(AuthenticationGuard)
   @Query(() => User, { nullable: true })
   async user(@CurrentUser() user: User): Promise<User | null> {
-    console.log(user);
     return await this.userService.findOneById(user?.id);
   }
 
