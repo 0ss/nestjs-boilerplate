@@ -49,11 +49,9 @@ export class AppModule
   private readonly logger = new Logger(AppModule.name);
 
   onApplicationBootstrap() {
-    console.log('xxxxxxxxx');
   }
   onModuleInit() {
     console.log(this.emailService.sendResetPasswordEmail('s7baijan@hotmail.com'));
-    this.logger.log('xxxxxxxxxxxxxxx')
   }
   configure(consumer: MiddlewareConsumer) {
     // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');

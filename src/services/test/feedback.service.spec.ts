@@ -15,7 +15,6 @@ describe('FeedbackService', () => {
   jest;
 
   it('should be defined', () => {
-    console.log(jest.spyOn(feedbackservice, 'findAll'));
     expect(feedbackservice).toBeDefined();
   });
 

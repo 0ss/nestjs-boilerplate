@@ -27,7 +27,6 @@ export class AuthService {
     const user = await this.userService.findOneByEmail(loginUserInput.email);
 
     if (!(await comparePassword(loginUserInput.password, user.password))) {
-      console.log('xxxxxxxx');
       throw new UnauthorizedException('credentials are not valid');
     }
     return user;
