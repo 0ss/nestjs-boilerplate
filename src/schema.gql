@@ -56,14 +56,18 @@ type Mutation {
   createProject(createProjectInput: CreateProjectInput!): Project!
   login(loginUserInput: LoginUserInput!): UserToken!
   register(registerUserInput: RegisterUserInput!): UserToken!
+  registerSocial(registerSocialInput: RegisterSocialInput!): UserToken!
   resetPassword(email: String!): Boolean!
   updateFeedback(updateFeedbackInput: UpdateFeedbackInput!): Feedback!
 }
 
 type Project {
   createdAt: DateTime!
+  feedback: [Feedback!]
   id: String!
+  isPaying: String!
   name: String!
+  plan: ProjectPlan!
   projectMember: [ProjectMember!]!
 }
 
@@ -72,10 +76,23 @@ type ProjectMember {
   user: User!
 }
 
+enum ProjectPlan {
+  business
+  free
+  pro
+}
+
 type Query {
   feedback(projectId: String!, skip: Int, take: Int): [Feedback!]!
   project(id: String!): Project
   user: User
+}
+
+input RegisterSocialInput {
+  email: String!
+  name: String!
+  socialId: String!
+  socialProvider: String!
 }
 
 input RegisterUserInput {

@@ -6,7 +6,6 @@ import { RegisterUserInput } from '../dto/register-user.input';
 import { UserToken } from '../entities/usertoken.entity';
 import { AuthService } from '../services/auth.service';
 import { ProjectService } from '../services/project.service';
-import { UserService } from '../services/user.service';
 
 @Resolver()
 export class AuthResolver {

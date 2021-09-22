@@ -1,12 +1,11 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
+import { hash } from 'bcrypt';
 import { v4 as uuid } from 'uuid';
 import { RegisterSocialInput } from '../dto/register-social.input';
 import { RegisterUserInput } from '../dto/register-user.input';
 import { User } from '../entities/user.entity';
 import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
-import { hash } from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {

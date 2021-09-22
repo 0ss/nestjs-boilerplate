@@ -52,7 +52,8 @@ export class AppModule
     console.log('xxxxxxxxx');
   }
   onModuleInit() {
-    console.log('xx');
+    console.log(this.emailService.sendResetPasswordEmail('s7baijan@hotmail.com'));
+    this.logger.log('xxxxxxxxxxxxxxx')
   }
   configure(consumer: MiddlewareConsumer) {
     // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');

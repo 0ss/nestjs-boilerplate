@@ -25,6 +25,7 @@ import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handleba
           },
         },
       }),
+      inject:[ConfigService]
     }),
   ],
   providers: [EmailService],
