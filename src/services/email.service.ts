@@ -30,7 +30,12 @@ export class EmailService {
         subject: 'Testing Nest MailerModule ✔', // Subject line
         text: 'welcome', // plaintext body
         html: '<b>welcome</b>', // HTML body content
-      });
+        template:  __dirname + '/reset-password.hbs',
+        context :{
+          resetPasswordLink: 'https://www.google.com'
+        }
+      })
+    
     } catch (e: any) {
       this.logger.error(e);
     }

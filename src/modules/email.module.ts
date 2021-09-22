@@ -2,6 +2,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { EmailService } from '../services/email.service';
+import { HandlebarsAdapter } from '@nestjs-modules/mailer/dist/adapters/handlebars.adapter';
 
 @Module({
   imports: [
@@ -14,6 +15,13 @@ import { EmailService } from '../services/email.service';
           auth: {
             user: configService.get('SMTP_USERNAME'),
             pass: configService.get('SMTP_PASSWORD'),
+          },
+          template: {
+            dir: __dirname + '/templates',
+            adapter: new HandlebarsAdapter(),
+            options: {
+              strict: true,
+            },
           },
         },
       }),
