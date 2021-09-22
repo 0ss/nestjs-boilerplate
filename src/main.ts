@@ -4,13 +4,16 @@ import { NestFactory } from '@nestjs/core';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import { AppModule } from './modules/app.module';
+import { EmailService } from './services/email.service';
 
 async function bootstrap() {
-  const logger = new Logger('Bootstrap');
+  const logger = new Logger(bootstrap.name);
   const configService = new ConfigService();
 
-
+  console.log(AppModule)
   const app = await NestFactory.create(AppModule, {});
+  console.log('AppModule')
+  logger.log(AppModule)
 
   app.use(
     helmet({

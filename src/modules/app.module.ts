@@ -1,6 +1,13 @@
 import { UserProjectModule } from './user-project.module';
 import { MailerModule } from '@nestjs-modules/mailer';
-import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import {
+  Logger,
+  MiddlewareConsumer,
+  Module,
+  NestModule,
+  OnApplicationBootstrap,
+  OnModuleInit,
+} from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { GraphqlConfigService } from '../config/graphql.config';
@@ -14,6 +21,7 @@ import { AuthModule } from './auth.module';
 import { EmailModule } from './email.module';
 import { PrismaModule } from './prisma.module';
 import { ProjectModule } from './project.module';
+import { EmailService } from '../services/email.service';
 @Module({
   imports: [
     UserProjectModule,
@@ -34,9 +42,19 @@ import { ProjectModule } from './project.module';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule {
+export class AppModule implements NestModule, OnModuleInit, OnApplicationBootstrap {
+  constructor(private readonly emailService: EmailService) {}
+  private readonly logger = new Logger(AppModule.name);
+
+  onApplicationBootstrap(){
+    console.log('xxxxxxxxx')
+
+  }
+  onModuleInit() {
+    console.log('xx')
+  }
   configure(consumer: MiddlewareConsumer) {
-   // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');
+    // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');
     consumer.apply(HttpLoggerMiddleware).forRoutes('*');
   }
 }
