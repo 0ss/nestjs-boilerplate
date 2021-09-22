@@ -1,19 +1,15 @@
-import { MailerModule } from '@nestjs-modules/mailer';
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { UnauthorizedException } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
-import { PassportModule } from '@nestjs/passport';
 import { Test, TestingModule } from '@nestjs/testing';
+import { hashSync } from 'bcrypt';
 import {
   loginUserInputFactory,
   userFactory,
 } from '../../../test/factories/user.factory';
-import { EmailModule } from '../../modules/email.module';
-import { PrismaModule } from '../../modules/prisma.module';
-import { UserModule } from '../../modules/user.module';
 import { AuthService } from '../auth.service';
 import { PrismaService } from '../prisma.service';
 import { UserService } from '../user.service';
-
 describe('AuthService', () => {
   let authService: AuthService;
   let userService: UserService;
@@ -44,11 +40,13 @@ describe('AuthService', () => {
   describe('validateCredentials', () => {
     it('it should return true on true credentials', async () => {
       const loginUserInput = loginUserInputFactory.build();
-      const user = userFactory.build(loginUserInput);
-      jest.spyOn(userService, 'findOneByEmail').mockRejectedValueOnce(user);
-      const result = authService.validateCredentials(loginUserInput);
-      console.log(result);
-      expect(result).toBe(user);
+      const user = userFactory.build({
+        ...loginUserInput,
+        password: hashSync(loginUserInput.password, 10),
+      });
+      jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(user);
+      const result = await authService.validateCredentials(loginUserInput);
+      expect(result).toBe(user)
     });
   });
 });

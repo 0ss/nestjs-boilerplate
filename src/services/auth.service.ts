@@ -26,7 +26,8 @@ export class AuthService {
   async validateCredentials(loginUserInput: LoginUserInput): Promise<User> {
     const user = await this.userService.findOneByEmail(loginUserInput.email);
 
-    if (!(await comparePassword(user.password, loginUserInput.password))) {
+    if (!(await comparePassword(loginUserInput.password,user.password))) {
+      console.log('xxxxxxxx')
       throw new UnauthorizedException('credentials are not valid');
     }
     return user;
