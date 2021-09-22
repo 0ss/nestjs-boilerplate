@@ -15,6 +15,7 @@ export class ProjectService {
     createProjectInput: CreateProjectInput,
     userId: string,
   ): Promise<Project> {
+    console.log(userId)
     return await this.prismaService.project.create({
       data: {
         id: uuid(),
