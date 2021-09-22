@@ -77,21 +77,21 @@ describe('AuthService', () => {
 
   describe('registerSocial', () => {
     it('should register user from social', async () => {
-      const registerSocialInput = registerSocialInputFactory.build()
-      const user = userFactory.build({...registerSocialInput,password:null});
+      const registerSocialInput = registerSocialInputFactory.build();
+      const user = userFactory.build(registerSocialInput);
       jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(null);
       jest.spyOn(userService, 'createWithSocial').mockResolvedValueOnce(user);
       const result = await authService.registerSocial(registerSocialInput);
       expect(result).toBe(user);
     });
 
-    it('it should throw when user not found', async () => {
-      const user = userFactory.build();
-      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(null);
+    it('should throw if social is already registered', async () => {
+      const registerSocialInput = registerSocialInputFactory.build();
+      const user = userFactory.build(registerSocialInput);
+      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(user);
       await expect(async () => {
-        await authService.loginSocial(user.socialId);
-      }).rejects.toThrow('Email is not registered');
+        await authService.registerSocial(registerSocialInput);
+      }).rejects.toThrow('Email already registered');
     });
   });
-
 });
