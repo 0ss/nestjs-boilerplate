@@ -40,7 +40,7 @@ export class AuthService {
     return user;
   }
 
-  async registerUser(registerUserInput: RegisterUserInput): Promise<User> {
+  async register(registerUserInput: RegisterUserInput): Promise<User> {
     if (!!(await this.userService.findOneByEmail(registerUserInput.email)))
       throw new ConflictException('Email already registered');
 

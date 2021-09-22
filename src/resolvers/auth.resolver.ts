@@ -18,7 +18,7 @@ export class AuthResolver {
   async register(
     @Args('registerUserInput') registerUserInput: RegisterUserInput,
   ): Promise<UserToken> {
-    const user = await this.authService.registerUser(registerUserInput);
+    const user = await this.authService.register(registerUserInput);
     const token = await this.authService.createToken(user);
     return { token, user };
   }
