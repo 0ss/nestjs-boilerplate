@@ -31,7 +31,7 @@ export class AuthResolver {
   }
 
   @Mutation(() => Boolean)
-  async resetPassword(@Args('email') email: string) : Promise<boolean> {
+  async resetPassword(@Args('email') email: string): Promise<boolean> {
     return await this.authService.createResetPasswordToken(email);
   }
 }

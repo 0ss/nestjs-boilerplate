@@ -26,20 +26,6 @@ import { ProjectModule } from './project.module';
     GraphQLModule.forRootAsync({
       useClass: GraphqlConfigService,
     }),
-    MailerModule.forRootAsync({
-      useFactory: (configService: ConfigService) => ({
-        transport: {
-          service: configService.get('SMTP_SERVICE'),
-          host: configService.get('SMTP_HOST'),
-          secure: true,
-          auth: {
-            user: configService.get('SMTP_USERNAME'),
-            pass: configService.get('SMTP_PASSWORD'),
-          },
-        },
-      }),
-      inject: [ConfigService],
-    }),
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: ['.env'],
