@@ -6,7 +6,7 @@ import { RegisterUserInput } from '../dto/register-user.input';
 import { User } from '../entities/user.entity';
 import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
-import { hash } from 'bcrypt'
+import { hash } from 'bcrypt';
 @Injectable()
 export class UserService {
   constructor(private readonly prismaService: PrismaService) {
@@ -18,7 +18,7 @@ export class UserService {
   private readonly logger = new Logger(UserService.name);
   async create(registerUserInput: RegisterUserInput): Promise<User | null> {
     const { email, name, password } = registerUserInput;
-    const hashedPassword = await hash(password,10)
+    const hashedPassword = await hash(password, 10);
     return await this.prismaService.user.create({
       data: {
         id: uuid(),

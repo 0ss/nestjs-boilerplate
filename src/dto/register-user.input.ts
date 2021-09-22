@@ -3,7 +3,6 @@ import { IsEmail, MinLength } from 'class-validator';
 
 @InputType()
 export class RegisterUserInput {
-
   @Field()
   @MinLength(1)
   name: string;

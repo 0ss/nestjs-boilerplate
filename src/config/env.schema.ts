@@ -10,7 +10,7 @@
 //   DB_HOST: Joi.string().required(), // ex: localhost:3306
 //   DB_USER: Joi.string().required(),
 //   DB_PASSWORD: Joi.string().not().required(),
-//   DB_PORT: Joi.number().default(5432), 
+//   DB_PORT: Joi.number().default(5432),
 //   JWT_SECRET: Joi.string().when('NODE_ENV', {
 //     is: 'production',
 //     then: Joi.required(),

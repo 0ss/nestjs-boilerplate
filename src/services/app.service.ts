@@ -3,7 +3,7 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class AppService {
   welcomeApi(): string {
-    return 'working'
+    return 'working';
   }
   teapot(): string {
     return `I'm a teapot ☕ `;

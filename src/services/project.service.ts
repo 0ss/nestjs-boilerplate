@@ -15,7 +15,6 @@ export class ProjectService {
     createProjectInput: CreateProjectInput,
     userId: string,
   ): Promise<Project> {
-
     return await this.prismaService.project.create({
       data: {
         id: uuid(),
@@ -40,18 +39,18 @@ export class ProjectService {
         userId: userId,
         role: addProjectMemberInput.role,
       },
-      select :{
-        user:true,
-        role:true,
-      }
-    })
-    return await this.prismaService.userProject.findMany({
-      where: { projectId: addProjectMemberInput.projectId  },
       select: {
         user: true,
         role: true,
       },
-    })
+    });
+    return await this.prismaService.userProject.findMany({
+      where: { projectId: addProjectMemberInput.projectId },
+      select: {
+        user: true,
+        role: true,
+      },
+    });
   }
 
   async findMembers(projectId: string): Promise<ProjectMember[]> {
@@ -67,6 +66,6 @@ export class ProjectService {
 
   async findOne(id: string): Promise<Project | null> {
     if (!isValid(id)) return null;
-    return (await this.prismaService.project.findFirst({ where: { id } }))
+    return await this.prismaService.project.findFirst({ where: { id } });
   }
 }

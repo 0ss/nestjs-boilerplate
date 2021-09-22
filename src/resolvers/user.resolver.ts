@@ -1,10 +1,5 @@
 import { Logger, UseGuards } from '@nestjs/common';
-import {
-  Parent,
-  Query,
-  ResolveField,
-  Resolver
-} from '@nestjs/graphql';
+import { Parent, Query, ResolveField, Resolver } from '@nestjs/graphql';
 import { CurrentUser } from '../decorators/currentuser.decorator';
 import { User } from '../entities/user.entity';
 import { UserProject } from '../entities/userproject.entity';
@@ -22,13 +17,12 @@ export class UserResolver {
   private readonly logger = new Logger(UserResolver.name);
 
   @UseGuards(AuthenticationGuard)
-  @Query(() => User, { nullable :true })
+  @Query(() => User, { nullable: true })
   async user(@CurrentUser() user: User): Promise<User | null> {
-    console.log(user)
+    console.log(user);
     return await this.userService.findOneById(user?.id);
   }
 
-  
   @ResolveField(() => [UserProject])
   async userProject(@Parent() user: User): Promise<UserProject[]> {
     return await this.userProjectService.findAll(user.id);

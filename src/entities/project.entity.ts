@@ -14,7 +14,7 @@ export class Project {
   createdAt: Date;
 
   @Field(() => ProjectPlan)
-  plan: "free" | "pro" | "business";
+  plan: 'free' | 'pro' | 'business';
 
   @Field(() => String)
   isPaying: boolean;
@@ -22,5 +22,3 @@ export class Project {
   @Field(() => [Feedback], { nullable: true })
   feedback?: Feedback[];
 }
-
- 

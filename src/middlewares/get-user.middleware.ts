@@ -20,7 +20,9 @@ export class GetUserMiddleware implements NestMiddleware {
   async use(req: Request, res: Response, next: Function) {
     try {
       const token = req.headers.authorization?.replace('Bearer', '')?.trim();
-      const user: Partial<User | null> = await this.authService.verifyToken(token);
+      const user: Partial<User | null> = await this.authService.verifyToken(
+        token,
+      );
       const userProject = await this.userProjectService.findAll(user?.id);
       req.user = {
         ...user,

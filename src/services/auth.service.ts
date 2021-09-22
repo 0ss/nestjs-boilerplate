@@ -2,7 +2,7 @@ import {
   ConflictException,
   Injectable,
   Logger,
-  UnauthorizedException
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { compare as comparePassword } from 'bcrypt';
@@ -19,15 +19,15 @@ export class AuthService {
   constructor(
     private readonly jwtService: JwtService,
     private readonly userService: UserService,
-    private readonly prismaService: PrismaService
+    private readonly prismaService: PrismaService,
   ) {}
   private readonly logger = new Logger(AuthService.name);
 
   async validateCredentials(loginUserInput: LoginUserInput): Promise<User> {
     const user = await this.userService.findOneByEmail(loginUserInput.email);
 
-    if (!(await comparePassword(loginUserInput.password,user.password))) {
-      console.log('xxxxxxxx')
+    if (!(await comparePassword(loginUserInput.password, user.password))) {
+      console.log('xxxxxxxx');
       throw new UnauthorizedException('credentials are not valid');
     }
     return user;

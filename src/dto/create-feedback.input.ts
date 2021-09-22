@@ -5,20 +5,20 @@ import { FeedbackType } from '../enums/feedback-type.enum';
 @InputType()
 export class CreateFeedbackInput {
   @Field()
-  projectId: string
+  projectId: string;
 
   @Field()
-  type : FeedbackType
+  type: FeedbackType;
 
   @Field()
-  emoji? : FeedbackEmoji
+  emoji?: FeedbackEmoji;
 
   @Field()
-  content: string
+  content: string;
 
   @Field()
-  page: string
+  page: string;
 
   @Field()
-  metadata: string
+  metadata: string;
 }

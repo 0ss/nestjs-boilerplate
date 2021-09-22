@@ -10,10 +10,10 @@ async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const configService = new ConfigService();
 
-  console.log(AppModule)
+  console.log(AppModule);
   const app = await NestFactory.create(AppModule, {});
-  console.log('AppModule')
-  logger.log(AppModule)
+  console.log('AppModule');
+  logger.log(AppModule);
 
   app.use(
     helmet({
@@ -23,7 +23,7 @@ async function bootstrap() {
   app.useGlobalPipes(new ValidationPipe());
   app.enableCors({ credentials: true, origin: configService.get('CORS_URL') });
   app.use(compression());
-  
-  await app.listen(configService.get('PORT'))
+
+  await app.listen(configService.get('PORT'));
 }
 bootstrap();

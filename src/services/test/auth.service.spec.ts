@@ -54,7 +54,7 @@ describe('AuthService', () => {
       jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(user);
       await expect(async () => {
         await authService.validateCredentials(loginUserInput);
-      }).rejects.toThrow('credentials are not valid')       
+      }).rejects.toThrow('credentials are not valid');
     });
   });
 });

@@ -8,13 +8,13 @@ export class AppController {
 
   @Get()
   welcomeApi(): string {
-    this.logger.log('xx')
+    this.logger.log('xx');
     return this.appService.welcomeApi();
   }
-  
+
   @Get('/teapot')
   @HttpCode(418)
-  teapot() : string {
+  teapot(): string {
     return this.appService.teapot();
   }
 }

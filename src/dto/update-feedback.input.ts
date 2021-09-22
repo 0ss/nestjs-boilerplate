@@ -3,9 +3,8 @@ import { IsBoolean } from 'class-validator';
 
 @InputType()
 export class UpdateFeedbackInput {
-
   @Field()
-   id: string;
+  id: string;
 
   @Field()
   @IsBoolean()

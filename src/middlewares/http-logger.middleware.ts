@@ -17,9 +17,7 @@ export class HttpLoggerMiddleware implements NestMiddleware {
     res.on('close', () => {
       const { statusCode, statusMessage } = res;
       const contentLength = res.get('content-length');
-      this.logger.log(
-        `${method} ${url} ${statusCode}`,
-      );
+      this.logger.log(`${method} ${url} ${statusCode}`);
     });
 
     next();

@@ -1,10 +1,9 @@
-  
-import { registerEnumType }from "@nestjs/graphql";
+import { registerEnumType } from '@nestjs/graphql';
 
 export enum SourceDevice {
-  smartphone = "smartphone",
-  desktop = "desktop"
+  smartphone = 'smartphone',
+  desktop = 'desktop',
 }
 registerEnumType(SourceDevice, {
-  name: "SourceDevice", 
+  name: 'SourceDevice',
 });

@@ -4,15 +4,15 @@ import { IsEmail, MinLength } from 'class-validator';
 @InputType()
 export class RegisterSocialInput {
   @Field()
-  socialProvider: "google" | "github"
+  socialProvider: 'google' | 'github';
 
   @Field()
-  socialId: string
+  socialId: string;
 
   @Field()
   @IsEmail()
   email: string;
 
   @Field()
-  name: string; 
+  name: string;
 }

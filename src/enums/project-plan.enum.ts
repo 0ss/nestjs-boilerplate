@@ -7,6 +7,5 @@ export enum ProjectPlan {
 }
 
 registerEnumType(ProjectPlan, {
-     name: 'ProjectPlan' 
+  name: 'ProjectPlan',
 });
- 

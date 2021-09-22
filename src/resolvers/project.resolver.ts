@@ -32,7 +32,10 @@ export class ProjectResolver {
   private readonly logger = new Logger(ProjectResolver.name);
 
   @Query(() => Project, { nullable: true })
-  async project(@CurrentUser() user: UserFromRequest, @Args('id') id: string) : Promise<Project> {
+  async project(
+    @CurrentUser() user: UserFromRequest,
+    @Args('id') id: string,
+  ): Promise<Project> {
     const project = await this.projectService.findOne(id);
 
     if (!project)
@@ -45,7 +48,7 @@ export class ProjectResolver {
   }
 
   @ResolveField(() => [ProjectMember])
-  async projectMember(@Parent() project: Project) : Promise<ProjectMember[]> {
+  async projectMember(@Parent() project: Project): Promise<ProjectMember[]> {
     return await this.projectService.findMembers(project.id);
   }
 
@@ -53,7 +56,7 @@ export class ProjectResolver {
   async createProject(
     @CurrentUser() user: User,
     @Args('createProjectInput') createProjectInput: CreateProjectInput,
-  ) : Promise<Project> {
+  ): Promise<Project> {
     return await this.projectService.create(createProjectInput, user.id);
   }
 
@@ -62,7 +65,7 @@ export class ProjectResolver {
     @CurrentUser() user: UserFromRequest,
     @Args('addProjectMember')
     addProjectMemberInput: AddProjectMemberInput,
-  ) : Promise<ProjectMember[]> {
+  ): Promise<ProjectMember[]> {
     const project = await this.projectService.findOne(
       addProjectMemberInput.projectId,
     );

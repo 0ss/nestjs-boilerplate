@@ -5,10 +5,10 @@ import { Injectable, Logger } from '@nestjs/common';
 @Injectable()
 export class EmailService {
   constructor(private readonly mailerService: MailerService) {}
-  
+
   private readonly logger = new Logger(EmailService.name);
 
-  async sendEmail(to:string): Promise<void> {
+  async sendEmail(to: string): Promise<void> {
     try {
       await this.mailerService.sendMail({
         to: 'salahandstuff@gmail.com', // list of receivers
@@ -22,7 +22,7 @@ export class EmailService {
     }
   }
 
-  async sendResetPasswordEmail(to:string): Promise<void> {
+  async sendResetPasswordEmail(to: string): Promise<void> {
     try {
       await this.mailerService.sendMail({
         to, // list of receivers
@@ -30,15 +30,13 @@ export class EmailService {
         subject: 'Testing Nest MailerModule ✔', // Subject line
         text: 'welcome', // plaintext body
         html: '<b>welcome</b>', // HTML body content
-        template:  __dirname + '/reset-password.hbs',
-        context :{
-          resetPasswordLink: 'https://www.google.com'
-        }
-      })
-    
+        template: __dirname + '/reset-password.hbs',
+        context: {
+          resetPasswordLink: 'https://www.google.com',
+        },
+      });
     } catch (e: any) {
       this.logger.error(e);
     }
   }
 }
- 

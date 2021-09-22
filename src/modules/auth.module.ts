@@ -12,7 +12,6 @@ import { AuthService } from './../services/auth.service';
 import { EmailModule } from './email.module';
 import { UserModule } from './user.module';
 
-
 @Module({
   imports: [
     PassportModule,
@@ -30,7 +29,7 @@ import { UserModule } from './user.module';
       inject: [ConfigService],
     }),
   ],
-  providers: [AuthService,AuthResolver,GoogleStrategy, ],
-  exports: [AuthService,PassportModule],
+  providers: [AuthService, AuthResolver, GoogleStrategy],
+  exports: [AuthService, PassportModule],
 })
 export class AuthModule {}

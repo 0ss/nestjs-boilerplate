@@ -42,16 +42,17 @@ import { EmailService } from '../services/email.service';
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule implements NestModule, OnModuleInit, OnApplicationBootstrap {
+export class AppModule
+  implements NestModule, OnModuleInit, OnApplicationBootstrap
+{
   constructor(private readonly emailService: EmailService) {}
   private readonly logger = new Logger(AppModule.name);
 
-  onApplicationBootstrap(){
-    console.log('xxxxxxxxx')
-
+  onApplicationBootstrap() {
+    console.log('xxxxxxxxx');
   }
   onModuleInit() {
-    console.log('xx')
+    console.log('xx');
   }
   configure(consumer: MiddlewareConsumer) {
     // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');

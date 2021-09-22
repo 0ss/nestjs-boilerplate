@@ -12,9 +12,7 @@ export class PrismaService
   extends PrismaClient
   implements OnModuleInit, OnModuleDestroy
 {
-  constructor(
-    
-  ) {
+  constructor() {
     super({
       log: [
         { emit: 'event', level: 'query' },
@@ -22,16 +20,16 @@ export class PrismaService
         { emit: 'stdout', level: 'warn' },
         { emit: 'stdout', level: 'error' },
       ],
-    })
+    });
   }
   private readonly logger = new Logger(PrismaService.name);
 
   async onModuleInit() {
     await this.$connect();
-  
+
     this.logger.log('Prisma connected successfully 🎉');
   }
-  
+
   async onModuleDestroy() {
     await this.$disconnect;
     this.logger.log('Prisma closed connection');

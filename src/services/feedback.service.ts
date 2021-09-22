@@ -15,7 +15,7 @@ export class FeedbackService {
 
   async findAll(feedbackArgs: FeedbackArgs): Promise<Feedback[]> {
     const { projectId, skip, take } = feedbackArgs;
-    if(!isValid(projectId)) return []
+    if (!isValid(projectId)) return [];
     return await this.prismaService.feedback.findMany({
       where: { projectId },
       skip,
@@ -23,21 +23,24 @@ export class FeedbackService {
     });
   }
 
-  async create(createFeedbackInput: CreateFeedbackInput, reqSource : ReqSource): Promise<Boolean> {
+  async create(
+    createFeedbackInput: CreateFeedbackInput,
+    reqSource: ReqSource,
+  ): Promise<Boolean> {
     const feedback = await this.prismaService.source.create({
       data: {
         ...reqSource,
-        feedback :{
-          create :{
-            ...createFeedbackInput
-          }
-        }
+        feedback: {
+          create: {
+            ...createFeedbackInput,
+          },
+        },
       },
     });
     return !!feedback;
   }
   async findSource(id: string): Promise<Source> {
-    if(!isValid(id)) return null
+    if (!isValid(id)) return null;
     this.findAll;
     return await this.prismaService.feedback
       .findFirst({
@@ -56,7 +59,7 @@ export class FeedbackService {
 
   async update(updateFeedbackInput: UpdateFeedbackInput): Promise<Feedback> {
     const { id, archived } = updateFeedbackInput;
-    if(!isValid(id)) return null
+    if (!isValid(id)) return null;
     return await this.prismaService.feedback.update({
       where: { id },
       data: { archived },

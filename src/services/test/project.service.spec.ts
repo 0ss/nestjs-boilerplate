@@ -59,13 +59,13 @@ describe('ProjectService', () => {
   describe('findMembers', () => {
     it('should return empty array when project id is not valid', async () => {
       const invalid = await projectService.findMembers(undefined);
-      expect(invalid).toHaveLength(0)
+      expect(invalid).toHaveLength(0);
     });
 
     it('should find project members', async () => {
       const user = userFactory.build();
       const project = projectFactory.build();
-      const projectMember = projectMemberFactory.build({user});
+      const projectMember = projectMemberFactory.build({ user });
 
       jest.spyOn(prismaService.userProject, 'findMany').mockResolvedValueOnce([
         {

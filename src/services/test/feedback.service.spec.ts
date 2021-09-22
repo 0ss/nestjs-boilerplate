@@ -12,21 +12,15 @@ describe('FeedbackService', () => {
     }).compile();
     feedbackservice = module.get<FeedbackService>(FeedbackService);
   });
-  jest
+  jest;
 
   it('should be defined', () => {
-    console.log(    jest.spyOn(feedbackservice,'findAll')
-    )
-    expect(feedbackservice).toBeDefined()
+    console.log(jest.spyOn(feedbackservice, 'findAll'));
+    expect(feedbackservice).toBeDefined();
   });
 
-  describe("findAll",() => {
+  describe('findAll', () => {
     const result = ['test'];
-    jest.spyOn(feedbackservice,'findAll').getMockImplementation()
-    
-  })
-  
-   
-  
-
+    jest.spyOn(feedbackservice, 'findAll').getMockImplementation();
+  });
 });
