@@ -4,7 +4,9 @@ import { Factory } from 'fishery';
 import { LoginUserInput } from 'src/dto/login-user.input';
 import { RegisterUserInput } from 'src/dto/register-user.input';
 import { User } from 'src/entities/user.entity';
+import { CreateFeedbackInput } from '../../src/dto/create-feedback.input';
 import { RegisterSocialInput } from '../../src/dto/register-social.input';
+import { UpdateFeedbackInput } from '../../src/dto/update-feedback.input';
 import { Feedback } from '../../src/entities/feedback.entity';
 import { Source } from '../../src/entities/source.entity';
 import { random } from '../../src/utils/random';
@@ -33,3 +35,24 @@ export const feedbackFactory = Factory.define<Feedback>(() => ({
   }),
   source: sourceFactory.build(),
 }));
+
+export const createFeedbackInputFactory = Factory.define<CreateFeedbackInput>(
+  () => ({
+    projectId: faker.datatype.uuid(),
+    content: faker.lorem.lines(3),
+    metadata: JSON.stringify({
+      userId: faker.datatype.uuid(),
+      email: faker.internet.email(),
+    }),
+    page: `/${faker.lorem.words(1)}`,
+    type: random(['issue', 'idea', 'other']),
+    emoji: random(['veryhappy', 'happy', 'neutral', 'sad', 'verysad']),
+  }),
+);
+
+export const updateFeedbackInputFactory = Factory.define<UpdateFeedbackInput>(
+  () => ({
+    id: faker.datatype.uuid(),
+    archived: faker.datatype.boolean(),
+  }),
+);
