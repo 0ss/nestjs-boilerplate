@@ -3,6 +3,7 @@ import {
   createFeedbackInputFactory,
   feedbackFactory,
   sourceFactory,
+  updateFeedbackInputFactory,
 } from '../../../test/factories/feedback.factory';
 import { PrismaModule } from '../../modules/prisma.module';
 import { FeedbackService } from '../feedback.service';
@@ -58,6 +59,22 @@ describe('FeedbackService', () => {
       jest.spyOn(prismaService.source, 'create').mockResolvedValueOnce(source);
       const result = await feedbackservice.create(createFeedbackInput, source);
       expect(result).toEqual(true);
+    });
+  });
+  describe('update', () => {
+    it('should return null when id is null or undefined', async () => {
+      const updateFeedbackInput = updateFeedbackInputFactory.build({id: undefined})
+      const invalid = await feedbackservice.update(updateFeedbackInput);
+      expect(invalid).toBeNull();
+    });
+
+    it('should update feedback', async () => {
+      const updateFeedbackInput = updateFeedbackInputFactory.build()
+      const feedback = feedbackFactory.build(updateFeedbackInput);
+      const source = sourceFactory.build();
+      jest.spyOn(prismaService.feedback, 'update').mockResolvedValueOnce(feedback);
+      const result = await feedbackservice.update(updateFeedbackInput);
+      expect(result).toEqual(feedback);
     });
   });
   describe('findSource', () => {
