@@ -9,6 +9,12 @@ export class Feedback {
   @Field()
   id: string;
 
+  @Field()
+  projectId: string;
+
+  @Field()
+  sourceId: string;
+
   @Field(() => Project, { nullable: true })
   project?: Project;
 

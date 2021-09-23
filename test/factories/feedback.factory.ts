@@ -20,20 +20,25 @@ export const sourceFactory = Factory.define<Source>(() => ({
   device: random(['smartphone', 'desktop']),
   os: random(['Linux', 'MacOS', 'Window']),
 }));
+
+const projectId = faker.datatype.uuid();
+const sourceId = faker.datatype.uuid();
 export const feedbackFactory = Factory.define<Feedback>(() => ({
   id: faker.datatype.uuid(),
+  projectId,
+  sourceId, 
   archived: faker.datatype.boolean(),
   content: faker.lorem.lines(3),
   createdAt: faker.datatype.datetime(),
   emoji: random(['veryhappy', 'happy', 'neutral', 'sad', 'verysad']),
   page: `/${faker.lorem.words(1)}`,
   type: random(['issue', 'idea', 'other']),
-  project: projectFactory.build(),
+  project: projectFactory.build({id: projectId}),
   metadata: JSON.stringify({
     userId: faker.datatype.uuid(),
     email: faker.internet.email(),
   }),
-  source: sourceFactory.build(),
+  source: sourceFactory.build({id: sourceId}),
 }));
 
 export const createFeedbackInputFactory = Factory.define<CreateFeedbackInput>(
