@@ -2,7 +2,7 @@
 https://docs.nestjs.com/modules
 */
 import { forwardRef, Module } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthenticationGuard } from '../guards/authentication.guard';
@@ -18,6 +18,8 @@ import { UserModule } from './user.module';
     PassportModule,
     ProjectModule,
     EmailModule,
+    ConfigModule,
+    AuthenticationGuard,
     forwardRef(() => UserModule),
     JwtModule.registerAsync({
       useFactory: (configService: ConfigService) => {
@@ -29,6 +31,7 @@ import { UserModule } from './user.module';
         };
       },
       inject: [ConfigService],
+      imports:[ConfigModule]
     }),
   ],
   providers: [AuthService, AuthResolver, GoogleStrategy, AuthenticationGuard],
