@@ -13,13 +13,10 @@ import { PrismaService } from './prisma.service';
 export class FeedbackService {
   constructor(private prismaService: PrismaService) {}
 
-  async findAll(feedbackArgs: FeedbackArgs): Promise<Feedback[]> {
-    const { projectId, skip, take } = feedbackArgs;
+  async findAll(projectId: string): Promise<Feedback[]> {
     if (!isValid(projectId)) return [];
     return await this.prismaService.feedback.findMany({
       where: { projectId },
-      skip,
-      take,
     });
   }
 
