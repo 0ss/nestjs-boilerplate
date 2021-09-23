@@ -1,5 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { createFeedbackInputFactory, feedbackFactory, sourceFactory } from '../../../test/factories/feedback.factory';
+import {
+  createFeedbackInputFactory,
+  feedbackFactory,
+  sourceFactory,
+} from '../../../test/factories/feedback.factory';
 import { PrismaModule } from '../../modules/prisma.module';
 import { FeedbackService } from '../feedback.service';
 import { PrismaService } from '../prisma.service';
@@ -37,9 +41,9 @@ describe('FeedbackService', () => {
         .mockResolvedValueOnce(feedbacks);
       const result = await feedbackservice.findAll(uuid);
       expect(result).toEqual(feedbacks);
-      result.forEach(e => {
-        expect(e.projectId).toEqual(projectId)
-      })
+      result.forEach((e) => {
+        expect(e.projectId).toEqual(projectId);
+      });
     });
     it('should return null when projectId is null or undefined', async () => {
       const invalid = await feedbackservice.findAll(undefined);
@@ -47,15 +51,28 @@ describe('FeedbackService', () => {
     });
   });
   describe('create', () => {
-    it('should create new feedback and return true', async () => {
-      const createFeedbackInput = createFeedbackInputFactory.build()
-      const feedback = feedbackFactory.build()
-      const source = sourceFactory.build()
-      jest
-        .spyOn(prismaService.feedback, 'create')
-        .mockResolvedValueOnce(feedback)
-      const result = await feedbackservice.create(createFeedbackInput,source);
+    it('should create new feedback and return true no matter what', async () => {
+      const createFeedbackInput = createFeedbackInputFactory.build();
+      const feedback = feedbackFactory.build();
+      const source = sourceFactory.build();
+      jest.spyOn(prismaService.source, 'create').mockResolvedValueOnce(source);
+      const result = await feedbackservice.create(createFeedbackInput, source);
       expect(result).toEqual(true);
+    });
+  });
+  describe('findSource', () => {
+    it('should return null when feedbackId is null or undefined', async () => {
+      const invalid = await feedbackservice.findSource(undefined);
+      expect(invalid).toBeNull();
+    });
+    it('should return the feedback source', async () => {
+      const source = sourceFactory.build();
+      const feedback = feedbackFactory.build({ sourceId: source.id, source });
+      jest
+        .spyOn(prismaService.source, 'findFirst')
+        .mockResolvedValueOnce(source);
+      const result = await feedbackservice.findSource(feedback.id);
+      expect(result).toEqual(source);
     });
   });
 });
