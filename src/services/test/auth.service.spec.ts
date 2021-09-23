@@ -80,7 +80,7 @@ describe('AuthService', () => {
     it('should register user from social', async () => {
       const registerSocialInput = registerSocialInputFactory.build();
       const user = userFactory.build(registerSocialInput);
-      jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(null);
+      jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(null);
       jest.spyOn(userService, 'createWithSocial').mockResolvedValueOnce(user);
       const result = await authService.registerSocial(registerSocialInput);
       expect(result).toBe(user);
