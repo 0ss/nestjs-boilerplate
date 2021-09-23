@@ -34,7 +34,7 @@ export class FeedbackService {
         },
       },
     });
-    return !!feedback;
+    return true;
   }
   async findSource(id: string): Promise<Source> {
     if (!isValid(id)) return null;
