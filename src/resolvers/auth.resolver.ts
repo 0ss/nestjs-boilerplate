@@ -22,7 +22,7 @@ export class AuthResolver {
     @Args('registerUserInput') registerUserInput: RegisterUserInput,
   ): Promise<UserToken> {
     const user = await this.authService.register(registerUserInput);
-    const token = await this.authService.createToken(user);
+    const token = this.authService.createToken(user);
     await this.projectService.create(
       {
         name: 'Project Test',
@@ -37,7 +37,7 @@ export class AuthResolver {
     @Args('registerSocialInput') registerSocialInput: RegisterSocialInput,
   ): Promise<UserToken> {
     const user = await this.authService.registerSocial(registerSocialInput);
-    const token = await this.authService.createToken(user);
+    const token = this.authService.createToken(user);
     await this.projectService.create(
       {
         name: 'Project Test',
@@ -48,11 +48,18 @@ export class AuthResolver {
   }
 
   @Mutation(() => UserToken)
+  async loginSocial(@Args('email') email: string): Promise<UserToken> {
+    const user = await this.authService.loginSocial(email);
+    const token = this.authService.createToken(user);
+    return { token, user };
+  }
+
+  @Mutation(() => UserToken)
   async login(
     @Args('loginUserInput') loginUserInput: LoginUserInput,
   ): Promise<UserToken> {
     const user = await this.authService.validateCredentials(loginUserInput);
-    const token = await this.authService.createToken(user);
+    const token = this.authService.createToken(user);
     return { token, user };
   }
 
