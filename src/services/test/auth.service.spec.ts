@@ -6,6 +6,7 @@ import { hashSync } from 'bcrypt';
 import {
   loginUserInputFactory,
   registerSocialInputFactory,
+  resetPasswordTokenFactory,
   userFactory,
 } from '../../../test/factories/user.factory';
 import { AuthService } from '../auth.service';
@@ -92,6 +93,47 @@ describe('AuthService', () => {
       await expect(async () => {
         await authService.registerSocial(registerSocialInput);
       }).rejects.toThrow('Email already registered');
+    });
+  });
+  describe('createResetPasswordToken', () => {
+    it('should return true even when email does not exist', async () => {
+      const user = userFactory.build();
+      jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(null);
+      const result = await authService.createResetPasswordToken(user.email);
+      expect(result).toBeTruthy();
+    });
+
+    it('should return true even when email exist and token sent', async () => {
+      const user = userFactory.build();
+      const resetPasswordToken = resetPasswordTokenFactory.build();
+      jest.spyOn(userService, 'findOneByEmail').mockResolvedValueOnce(user);
+      jest
+        .spyOn(prismaService.resetPasswordToken, 'create')
+        .mockResolvedValueOnce(resetPasswordToken);
+      const result = await authService.createResetPasswordToken(user.email);
+      expect(result).toBeTruthy();
+    });
+  });
+  describe('createToken', () => {
+    it('should create new JWT token', async () => {
+      const user = userFactory.build();
+      const result = await authService.createToken(user);
+      expect(result).toBeTruthy();
+    });
+  });
+  describe('verifyToken', () => {
+    it('should return true when token is valid', async () => {
+      const user = userFactory.build();
+      const token = await authService.createToken(user);
+      const result = await authService.verifyToken(token);
+      expect(result).toBeTruthy();
+    });
+    it('should throw when token is not valid', async () => {
+      const user = userFactory.build();
+      const token = await authService.createToken(user);
+      await expect(async () => {
+        await authService.verifyToken(token + 'blah');
+      }).rejects.toThrow('invalid signature');
     });
   });
 });
