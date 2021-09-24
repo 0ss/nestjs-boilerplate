@@ -29,10 +29,6 @@ export const registerSocialInputFactory = Factory.define<RegisterSocialInput>(
   }),
 );
 
-export const projectMember = Factory.define<ProjectMember>(() => ({
-  role: random(['user', 'admin']),
-  user: userFactory.build(),
-}));
 export const projectFactory = Factory.define<Project>(() => ({
   id: faker.datatype.uuid(),
   name: faker.name.firstName(),
