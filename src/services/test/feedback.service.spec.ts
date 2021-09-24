@@ -9,6 +9,9 @@ import { PrismaModule } from '../../modules/prisma.module';
 import { FeedbackService } from '../feedback.service';
 import { PrismaService } from '../prisma.service';
 import { v4 as uuid } from 'uuid';
+import { PrismaClient } from '@prisma/client';
+
+ 
 describe('FeedbackService', () => {
   let feedbackservice: FeedbackService;
   let prismaService: PrismaService;
