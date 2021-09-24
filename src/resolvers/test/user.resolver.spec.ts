@@ -28,7 +28,7 @@ describe('UserResolver', () => {
       const result = await userResolver.user(user);
       expect(result).toBe(user);
     });
-    it('should return user with id when exist', async () => {
+    it('should return null when id does not exist', async () => {
       const user = userFactory.build();
       jest.spyOn(userService, 'findOneById').mockResolvedValueOnce(null);
       const result = await userResolver.user(null);
@@ -36,17 +36,18 @@ describe('UserResolver', () => {
     });
   });
   describe('userProject', () => {
-    it('should return user with id when exist', async () => {
-      const user = userFactory.build();
-      jest.spyOn(userService, 'findOneById').mockResolvedValueOnce(user);
-      const result = await userResolver.user(user);
-      expect(result).toBe(user);
-    });
-    it('should return user with id when exist', async () => {
+    it('should return user project when user exist', async () => {
       const user = userFactory.build();
       const userProject = userProjectFactory.buildList(3)
       jest.spyOn(userService, 'findAllProject').mockResolvedValueOnce(userProject);
       const result = await userResolver.userProject(user);
+      expect(result).toBe(userProject);
+    });
+    it('should return null when user id does not exist', async () => {
+      const user = userFactory.build();
+      const userProject = userProjectFactory.buildList(3)
+      jest.spyOn(userService, 'findAllProject').mockResolvedValueOnce(null);
+      const result = await userResolver.userProject(null);
       expect(result).toBeNull();
     });
   });

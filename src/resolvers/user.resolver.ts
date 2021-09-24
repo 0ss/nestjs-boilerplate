@@ -22,6 +22,6 @@ export class UserResolver {
 
   @ResolveField(() => [UserProject])
   async userProject(@Parent() user: User): Promise<UserProject[]> {
-    return await this.userService.findAllProject(user.id);
+    return await this.userService.findAllProject(user?.id);
   }
 }
