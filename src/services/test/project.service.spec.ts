@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { feedbackFactory } from '../../../test/factories/feedback.factory';
 import {
   addProjectMemberInputFactory,
   createProjectInputFactory,
@@ -41,6 +42,22 @@ describe('ProjectService', () => {
     });
   });
 
+  describe('findFeedback', () => {
+    it('should find project feedback', async () => {
+      const project = projectFactory.build();
+      const feedbacks = feedbackFactory.buildList(10, {projectId : project.id})
+      jest
+        .spyOn(prismaService.project, 'findFirst')
+        .mockResolvedValueOnce(feedbacks as any);
+      const result = await projectService.findFeedback(project.id);
+      expect(result).toEqual(feedbacks);
+    });
+    it('should return empty array when project id is not valid', async () => {
+      const invalid = await projectService.findFeedback(undefined);
+      expect(invalid).toHaveLength(0)
+    });
+  });
+
   describe('findOne', () => {
     it('should find project', async () => {
       const project = projectFactory.build();
@@ -55,6 +72,7 @@ describe('ProjectService', () => {
       expect(invalid).toBeNull();
     });
   });
+
 
   describe('findMembers', () => {
     it('should return empty array when project id is not valid', async () => {
