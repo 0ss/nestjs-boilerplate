@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { projectFactory } from '../../../test/factories/project.factory';
+import { projectFactory, registerSocialInputFactory } from '../../../test/factories/project.factory';
 import { registerUserInputFactory, userFactory } from '../../../test/factories/user.factory';
 import { PrismaModule } from '../../modules/prisma.module';
 import { UserModule } from '../../modules/user.module';
@@ -27,7 +27,7 @@ describe('AuthResolver', () => {
     expect(authResolver).toBeDefined();
   });
   describe('register', () => {
-    it('should return user with id when exist', async () => {
+    it('should register user and return object of the token with user ', async () => {
       const registerUserInput = registerUserInputFactory.build()
       const user = userFactory.build(registerUserInput)
       const token = authService.createToken(user)
@@ -39,11 +39,19 @@ describe('AuthResolver', () => {
       const result = await authResolver.register(registerUserInput);
       expect(result).toMatchObject({user,token})
     });
-    // it('should return null when id does not exist', async () => {
-    //   const user = userFactory.build();
-    //   jest.spyOn(userService, 'findOneById').mockResolvedValueOnce(null);
-    //   const result = await userResolver.user(null);
-    //   expect(result).toBeNull();
-    // });
+  });
+  describe('registerSocial', () => {
+    it('should register user from social and return object of the token with user ', async () => {
+      const registerSocialInput = registerSocialInputFactory.build()
+      const user = userFactory.build(registerSocialInput)
+      const token = authService.createToken(user)
+      const project = projectFactory.build()
+      jest.spyOn(authService, 'registerSocial').mockResolvedValueOnce(user);
+      jest.spyOn(authService, 'createToken').mockReturnValueOnce(token);
+      jest.spyOn(projectService, 'create').mockResolvedValueOnce(project);
+
+      const result = await authResolver.registerSocial(registerSocialInput);
+      expect(result).toMatchObject({user,token})
+    });
   });
 });
