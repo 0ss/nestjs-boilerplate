@@ -5,7 +5,7 @@ export const jwt = {
     return JWT.sign(payload, process.env.JWT_SECRET, {
       algorithm: 'HS256',
       issuer: 'feedbackness platform',
-      expiresIn: process.env.JWT_LIFE,
+      expiresIn: process.env.JWT_EXPIRATION_TIME,
     });
   },
 
