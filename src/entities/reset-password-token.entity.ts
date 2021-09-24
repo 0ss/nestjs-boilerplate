@@ -9,7 +9,7 @@ export class ResetPasswordToken {
   id: string;
 
   @Field(() => String)
-  userI!: string;
+  userId!: string;
 
   @Field(() => String)
   token: string;
