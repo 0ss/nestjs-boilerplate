@@ -4,7 +4,6 @@ https://docs.nestjs.com/middleware#middleware
 
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { Request, Response } from 'express';
-import { UserProjectService } from '../services/user-project.service';
 import { User } from '../entities/user.entity';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
@@ -13,7 +12,6 @@ import { UserService } from '../services/user.service';
 export class GetUserMiddleware implements NestMiddleware {
   constructor(
     private readonly userService: UserService,
-    private readonly userProjectService: UserProjectService,
 
     private readonly authService: AuthService,
   ) {}
@@ -23,7 +21,7 @@ export class GetUserMiddleware implements NestMiddleware {
       const user: Partial<User | null> = await this.authService.verifyToken(
         token,
       );
-      const userProject = await this.userProjectService.findAll(user?.id);
+      const userProject = await this.userService.findAllProject(user?.id);
       req.user = {
         ...user,
         hasProjectWithId(projectId: string) {

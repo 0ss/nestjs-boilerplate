@@ -4,14 +4,12 @@ import { CurrentUser } from '../decorators/currentuser.decorator';
 import { User } from '../entities/user.entity';
 import { UserProject } from '../entities/userproject.entity';
 import { AuthenticationGuard } from '../guards/authentication.guard';
-import { UserProjectService } from '../services/user-project.service';
 import { UserService } from '../services/user.service';
 
 @Resolver(() => User)
 export class UserResolver {
   constructor(
     private readonly userService: UserService,
-    private readonly userProjectService: UserProjectService,
   ) {}
 
   private readonly logger = new Logger(UserResolver.name);
@@ -24,6 +22,6 @@ export class UserResolver {
 
   @ResolveField(() => [UserProject])
   async userProject(@Parent() user: User): Promise<UserProject[]> {
-    return await this.userProjectService.findAll(user.id);
+    return await this.userService.findAllProject(user.id);
   }
 }

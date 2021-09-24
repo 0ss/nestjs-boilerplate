@@ -15,13 +15,13 @@ import { Source } from '../entities/source.entity';
 import { CurrentUser } from '../decorators/currentuser.decorator';
 import { Feedback } from '../entities/feedback.entity';
 import { FeedbackService } from '../services/feedback.service';
-import { UserProjectService } from '../services/user-project.service';
+import { UserService } from '../services/user.service';
 
 @Resolver(() => Feedback)
 export class FeedbackResolver {
   constructor(
     private readonly feedbackService: FeedbackService,
-    private readonly userProjectService: UserProjectService,
+    private readonly userService : UserService
   ) {}
 
   @Query(() => [Feedback])
@@ -29,7 +29,7 @@ export class FeedbackResolver {
     @CurrentUser() user: User,
     @Args() projectId: string,
   ): Promise<Feedback[]> {
-    const hasProject = (await this.userProjectService.findAll(user?.id)).some(
+    const hasProject = (await this.userService.findAllProject(user?.id)).some(
       (_) => _.project.id === projectId,
     );
     if (!hasProject)
@@ -49,7 +49,7 @@ export class FeedbackResolver {
       updateFeedbackInput?.id,
     );
 
-    const hasProject = (await this.userProjectService.findAll(user?.id)).some(
+    const hasProject = (await this.userService.findAllProject(user?.id)).some(
       (_) => _.project.id === feedbackProject.id,
     );
     if (!hasProject)

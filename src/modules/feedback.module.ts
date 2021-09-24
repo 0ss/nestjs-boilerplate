@@ -2,10 +2,10 @@ import { Module } from '@nestjs/common';
 import { FeedbackController } from '../controllers/feedback.controller';
 import { FeedbackResolver } from '../resolvers/feedback.resolver';
 import { FeedbackService } from '../services/feedback.service';
-import { UserProjectModule } from './user-project.module';
+import { UserModule } from './user.module';
 
 @Module({
-  imports:[UserProjectModule],
+  imports:[UserModule],
   controllers: [FeedbackController],
   providers: [FeedbackResolver, FeedbackService],
 })

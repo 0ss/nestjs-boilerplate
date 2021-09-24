@@ -4,7 +4,7 @@ import { ProjectResolver } from '../resolvers/project.resolver';
 import { UserModule } from './user.module';
 
 @Module({
-  imports: [forwardRef(() => UserModule)],
+  imports: [ UserModule],
   providers: [ProjectResolver, ProjectService],
   exports: [ProjectService]
 })

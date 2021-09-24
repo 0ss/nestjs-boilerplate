@@ -1,4 +1,3 @@
-import { UserProjectModule } from './user-project.module';
 import { MailerModule } from '@nestjs-modules/mailer';
 import {
   Logger,
@@ -24,7 +23,6 @@ import { ProjectModule } from './project.module';
 import { EmailService } from '../services/email.service';
 @Module({
   imports: [
-    UserProjectModule,
     UserModule,
     PrismaModule,
     FeedbackModule,

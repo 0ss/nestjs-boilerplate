@@ -4,6 +4,7 @@ import { v4 as uuid } from 'uuid';
 import { RegisterSocialInput } from '../dto/register-social.input';
 import { RegisterUserInput } from '../dto/register-user.input';
 import { User } from '../entities/user.entity';
+import { UserProject } from '../entities/userproject.entity';
 import { isValid } from '../utils/is-valid';
 import { PrismaService } from './prisma.service';
 @Injectable()
@@ -62,6 +63,16 @@ export class UserService {
     return await this.prismaService.user.findFirst({
       where: {
         email,
+      },
+    });
+  }
+  async findAllProject(userId: string): Promise<UserProject[]> {
+    if (!isValid(userId)) return [];
+    return await this.prismaService.userProject.findMany({
+      where: { userId },
+      select: {
+        project: true,
+        role: true,
       },
     });
   }
