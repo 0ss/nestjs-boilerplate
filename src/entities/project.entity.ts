@@ -19,6 +19,6 @@ export class Project {
   @Field(() => String)
   isPaying: boolean;
 
-  @Field(() => [Feedback], { nullable: true })
+  @Field(() => [Feedback])
   feedback?: Feedback[];
 }

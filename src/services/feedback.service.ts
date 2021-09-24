@@ -39,13 +39,11 @@ export class FeedbackService {
   async findSource(feedbackId: string): Promise<Source> {
     if (!isValid(feedbackId)) return null;
     this.findAll;
-    return await this.prismaService.source.findFirst({
+    return await this.prismaService.feedback.findFirst({
       where: {
-        feedback: {
-          id: feedbackId,
-        },
-      },
-    });
+        id :feedbackId
+      }
+    }).source()
   }
 
   async findProject(feedbackId: string): Promise<Project> {
