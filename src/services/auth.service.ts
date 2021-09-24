@@ -4,7 +4,6 @@ import {
   Logger,
   UnauthorizedException,
 } from '@nestjs/common';
-import { JwtService } from '@nestjs/jwt';
 import { compare as comparePassword } from 'bcrypt';
 import { LoginUserInput } from '../dto/login-user.input';
 import { RegisterSocialInput } from '../dto/register-social.input';
@@ -14,10 +13,10 @@ import { tomorrow } from '../utils/tomorrow';
 import { v4 as uuid } from 'uuid';
 import { PrismaService } from './prisma.service';
 import { UserService } from './user.service';
+import { jwt } from '../utils/jwt';
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly jwtService: JwtService,
     private readonly userService: UserService,
     private readonly prismaService: PrismaService,
   ) {}
@@ -75,10 +74,10 @@ export class AuthService {
 
   createToken(user: Partial<User>): string {
     delete user.password;
-    return this.jwtService.sign(user);
+    return jwt.sign(user);
   }
 
-  verifyToken(token): Partial<User> {
-    return this.jwtService.verify(token);
+  verifyToken(token : string): Partial<User> {
+    return jwt.verify(token) as Partial<User>
   }
 }

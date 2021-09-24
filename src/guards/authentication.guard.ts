@@ -6,11 +6,11 @@ import {
 } from '@nestjs/common';
 import { GqlExecutionContext } from '@nestjs/graphql';
 import { User } from '../entities/user.entity';
-import { AuthService } from '../services/auth.service';
+import { jwt } from '../utils/jwt';
 
 @Injectable()
 export class AuthenticationGuard implements CanActivate {
-  constructor(private readonly authService: AuthService) {}
+  constructor() {}
 
   getRequest(context: ExecutionContext) {
     const ctx = GqlExecutionContext.create(context);
@@ -20,7 +20,7 @@ export class AuthenticationGuard implements CanActivate {
     const req = this.getRequest(context);
     try {
       const token = req.headers.authorization?.replace('Bearer', '')?.trim();
-      const user: Partial<User> = await this.authService.verifyToken(token);
+      const user: Partial<User> = await jwt.verify(token);
       req.user = user;
       return true;
     } catch {
