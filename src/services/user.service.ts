@@ -68,12 +68,12 @@ export class UserService {
   }
   async findAllProject(userId: string): Promise<UserProject[]> {
     if (!isValid(userId)) return [];
-    return await this.prismaService.userProject.findMany({
+    return (await this.prismaService.userProject.findMany({
       where: { userId },
       select: {
         project: true,
         role: true,
       },
-    });
+    }))
   }
 }

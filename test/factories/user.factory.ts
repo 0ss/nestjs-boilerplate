@@ -54,6 +54,5 @@ export const userFactory = Factory.define<User>(() => ({
 export const userProjectFactory = Factory.define<UserProject>(() => ({
   project: projectFactory.build(),
   role: random(['user', 'admin']),
-
 }));
 

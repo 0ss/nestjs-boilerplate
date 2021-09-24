@@ -1,5 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { userFactory } from '../../../test/factories/user.factory';
+import { userFactory, userProjectFactory } from '../../../test/factories/user.factory';
 import { PrismaModule } from '../../modules/prisma.module';
 import { UserModule } from '../../modules/user.module';
 import { UserService } from '../../services/user.service';
@@ -32,6 +32,21 @@ describe('UserResolver', () => {
       const user = userFactory.build();
       jest.spyOn(userService, 'findOneById').mockResolvedValueOnce(null);
       const result = await userResolver.user(null);
+      expect(result).toBeNull();
+    });
+  });
+  describe('userProject', () => {
+    it('should return user with id when exist', async () => {
+      const user = userFactory.build();
+      jest.spyOn(userService, 'findOneById').mockResolvedValueOnce(user);
+      const result = await userResolver.user(user);
+      expect(result).toBe(user);
+    });
+    it('should return user with id when exist', async () => {
+      const user = userFactory.build();
+      const userProject = userProjectFactory.buildList(3)
+      jest.spyOn(userService, 'findAllProject').mockResolvedValueOnce(userProject);
+      const result = await userResolver.userProject(user);
       expect(result).toBeNull();
     });
   });
