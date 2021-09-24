@@ -12,7 +12,6 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { GraphqlConfigService } from '../config/graphql.config';
 import { HttpLoggerMiddleware } from '../middlewares/http-logger.middleware';
 import { AppController } from '../controllers/app.controller';
-import { GetUserMiddleware } from '../middlewares/get-user.middleware';
 import { FeedbackModule } from '../modules/feedback.module';
 import { UserModule } from '../modules/user.module';
 import { AppService } from '../services/app.service';
@@ -46,13 +45,13 @@ export class AppModule
   constructor(private readonly emailService: EmailService) {}
   private readonly logger = new Logger(AppModule.name);
 
-  onApplicationBootstrap() {
-  }
+  onApplicationBootstrap() {}
   onModuleInit() {
-    console.log(this.emailService.sendResetPasswordEmail('s7baijan@hotmail.com'));
+    console.log(
+      this.emailService.sendResetPasswordEmail('s7baijan@hotmail.com'),
+    );
   }
   configure(consumer: MiddlewareConsumer) {
-    // consumer.apply(GetUserMiddleware).forRoutes('/api/graphql');
     consumer.apply(HttpLoggerMiddleware).forRoutes('*');
   }
 }
