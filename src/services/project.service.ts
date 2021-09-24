@@ -6,6 +6,7 @@ import { isValid } from '../utils/is-valid';
 import { v4 as uuid } from 'uuid';
 import { CreateProjectInput } from '../dto/create-project.input';
 import { PrismaService } from './prisma.service';
+import { Feedback } from '../entities/feedback.entity';
 
 @Injectable()
 export class ProjectService {
@@ -69,4 +70,9 @@ export class ProjectService {
     if (!isValid(id)) return null;
     return await this.prismaService.project.findFirst({ where: { id } });
   }
+  async findFeedback(id: string): Promise<Feedback[] | null> {
+    if (!isValid(id)) return null;
+    return await this.prismaService.project.findFirst({ where: { id } }).feedback();
+  }
+
 }
