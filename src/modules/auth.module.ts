@@ -20,21 +20,9 @@ import { UserModule } from './user.module';
     EmailModule,
     ConfigModule,
     AuthenticationGuard,
-    forwardRef(() => UserModule),
-    JwtModule.registerAsync({
-      useFactory: (configService: ConfigService) => {
-        return {
-          secret: configService.get('JWT_SECRET'),
-          signOptions: {
-            expiresIn: configService.get('JWT_EXPIRATION_TIME'),
-          },
-        };
-      },
-      inject: [ConfigService],
-      imports:[ConfigModule]
-    }),
+    UserModule,
   ],
-  providers: [AuthService, AuthResolver, GoogleStrategy, AuthenticationGuard],
-  exports: [AuthService, PassportModule, AuthenticationGuard ],
+  providers: [AuthService, AuthResolver, GoogleStrategy],
+  exports: [AuthService, PassportModule ],
 })
 export class AuthModule {}

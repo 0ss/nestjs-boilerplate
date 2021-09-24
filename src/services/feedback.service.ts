@@ -48,6 +48,15 @@ export class FeedbackService {
     });
   }
 
+  async findProject(feedbackId: string): Promise<Project> {
+    return await this.prismaService.feedback
+      .findFirst({
+        where: { id : feedbackId },
+      })
+      .project();
+  }
+
+
   async update(updateFeedbackInput: UpdateFeedbackInput): Promise<Feedback> {
     const { id, archived } = updateFeedbackInput;
     if (!isValid(id)) return null;

@@ -27,17 +27,17 @@ export class FeedbackResolver {
   @Query(() => [Feedback])
   async feedback(
     @CurrentUser() user: User,
-    @Args() feedbackArgs: FeedbackArgs,
+    @Args() projectId: string,
   ): Promise<Feedback[]> {
     const hasProject = (await this.userProjectService.findAll(user?.id)).some(
-      (_) => _.project.id === feedbackArgs.projectId,
+      (_) => _.project.id === projectId,
     );
     if (!hasProject)
       throw new UnauthorizedException(
         'You are not allowed to edit the feedback',
       );
 
-    return await this.feedbackService.findAll(feedbackArgs);
+    return await this.feedbackService.findAll(projectId);
   }
 
   @Mutation(() => Feedback)
