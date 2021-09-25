@@ -62,7 +62,7 @@ describe('AuthResolver', () => {
     });
   });
   describe('login', () => {
-    it('should validate credentialslogin user ', async () => {
+    it('should validate credentials login user ', async () => {
       const loginUserInput = loginUserInputFactory.build();
       const user = userFactory.build(loginUserInput);
       const token = authService.createToken(user);
@@ -74,19 +74,45 @@ describe('AuthResolver', () => {
       const result = await authResolver.login(loginUserInput);
       expect(result).toMatchObject({ user, token });
     });
-  });
-  describe('login', () => {
     it('should throw an error when failing to validate credentials ', async () => {
       const loginUserInput = loginUserInputFactory.build();
       const user = userFactory.build(loginUserInput);
-      const token = authService.createToken(user);
       jest
         .spyOn(authService, 'validateCredentials')
         .mockRejectedValueOnce(user);
       await expect(async () => {
         const result = await authResolver.login(loginUserInput);
-        await expect(result).rejects.toThrow(UnauthorizedException)
-      })
+        await expect(result).rejects.toThrow(UnauthorizedException);
+      });
+    });
+  });
+  describe('loginSocial', () => {
+    it('should login user from social ', async () => {
+      const email = 'email@email.com';
+      const user = userFactory.build({ email });
+      const token = authService.createToken(user);
+      jest.spyOn(authService, 'loginSocial').mockResolvedValueOnce(user);
+      jest.spyOn(authService, 'createToken').mockReturnValueOnce(token);
+      const result = await authResolver.loginSocial(email);
+      expect(result).toMatchObject({ user, token });
+    });
+
+    it('should throw an error when social login id is not registerd', async () => {
+      const email = 'email@email.com';
+      const user = userFactory.build({ email });
+      jest.spyOn(authService, 'loginSocial').mockRejectedValueOnce(user);
+      await expect(async () => {
+        const result = await authResolver.loginSocial(email);
+        await expect(result).rejects.toThrow(UnauthorizedException);
+      });
+    });
+  });
+  describe('resetPassword', () => {
+    it('should return true when creating reset password token ', async () => {
+      const email = 'email@email.com';
+      jest.spyOn(authService, 'createResetPasswordToken').mockResolvedValueOnce(true);
+      const result = await authResolver.resetPassword(email)
+      expect(result).toBeTruthy()
     });
   });
 });

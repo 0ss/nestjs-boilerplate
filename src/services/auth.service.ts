@@ -33,7 +33,7 @@ export class AuthService {
 
   async loginSocial(socialId: string): Promise<User> {
     const user = await this.userService.findOneBySocialId(socialId);
-    if (!user) throw new UnauthorizedException('Email is not registered');
+    if (!user) throw new UnauthorizedException('Account is not registered');
 
     return user;
   }
