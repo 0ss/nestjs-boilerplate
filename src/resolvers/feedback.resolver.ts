@@ -24,10 +24,10 @@ export class FeedbackResolver {
     private readonly userService : UserService
   ) {}
 
-  @Query(() => [Feedback])
+  @ResolveField(() => [Feedback])
   async feedback(
     @CurrentUser() user: User,
-    @Args('projectId') projectId: string,
+    @Parent()projectId: string,
   ): Promise<Feedback[]> {
     const hasProject = (await this.userService.findAllProject(user?.id)).some(
       (_) => _.project.id === projectId,

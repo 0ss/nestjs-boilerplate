@@ -22,7 +22,5 @@ export class Project {
 
   @Field(() => [ProjectMember])
   projectMember?: ProjectMember[];
-  
-  @Field(() => [Feedback])
-  feedback?: Feedback[];
+
 }

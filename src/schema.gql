@@ -22,6 +22,7 @@ type Feedback {
   content: String!
   createdAt: DateTime!
   emoji: FeedbackEmoji
+  feedback: [Feedback!]!
   id: String!
   metadata: String!
   page: String!
@@ -66,7 +67,6 @@ type Mutation {
 
 type Project {
   createdAt: DateTime!
-  feedback: [Feedback!]!
   id: String!
   isPaying: String!
   name: String!
@@ -86,7 +86,6 @@ enum ProjectPlan {
 }
 
 type Query {
-  feedback(projectId: String!): [Feedback!]!
   project(id: String!): Project
   user: User
 }
