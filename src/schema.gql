@@ -26,7 +26,9 @@ type Feedback {
   metadata: String!
   page: String!
   project: Project
+  projectId: String!
   source: Source
+  sourceId: String!
   type: FeedbackType!
 }
 
@@ -55,6 +57,7 @@ type Mutation {
   addProjectMember(addProjectMember: AddProjectMemberInput!): Project!
   createProject(createProjectInput: CreateProjectInput!): Project!
   login(loginUserInput: LoginUserInput!): UserToken!
+  loginSocial(email: String!): UserToken!
   register(registerUserInput: RegisterUserInput!): UserToken!
   registerSocial(registerSocialInput: RegisterSocialInput!): UserToken!
   resetPassword(email: String!): Boolean!
@@ -63,7 +66,7 @@ type Mutation {
 
 type Project {
   createdAt: DateTime!
-  feedback: [Feedback!]
+  feedback: [Feedback!]!
   id: String!
   isPaying: String!
   name: String!
@@ -83,7 +86,7 @@ enum ProjectPlan {
 }
 
 type Query {
-  feedback(projectId: String!, skip: Int, take: Int): [Feedback!]!
+  feedback(projectId: String!): [Feedback!]!
   project(id: String!): Project
   user: User
 }

@@ -1,6 +1,7 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { ProjectPlan } from '../enums/project-plan.enum';
 import { Feedback } from './feedback.entity';
+import { ProjectMember } from './projectmember.entity';
 
 @ObjectType()
 export class Project {
@@ -18,6 +19,9 @@ export class Project {
 
   @Field(() => String)
   isPaying: boolean;
+
+  @Field(() => [ProjectMember])
+  projectMember?: ProjectMember[];
   
   @Field(() => [Feedback])
   feedback?: Feedback[];
