@@ -17,7 +17,7 @@ export class Project {
   @Field(() => ProjectPlan)
   plan: 'free' | 'pro' | 'business';
 
-  @Field(() => String)
+  @Field(() => Boolean)
   isPaying: boolean;
 
   @Field(() => [ProjectMember])

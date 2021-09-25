@@ -14,10 +14,7 @@ export class Feedback {
 
   @Field()
   sourceId: string;
-
-  @Field(() => Project, { nullable: true })
-  project?: Project;
-
+ 
   @Field(() => FeedbackType)
   type: 'issue' | 'idea' | 'other';
 

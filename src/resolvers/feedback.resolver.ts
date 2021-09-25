@@ -21,21 +21,19 @@ import { UserService } from '../services/user.service';
 export class FeedbackResolver {
   constructor(
     private readonly feedbackService: FeedbackService,
-    private readonly userService : UserService
+    private readonly userService: UserService,
   ) {}
 
-  @ResolveField(() => [Feedback])
+  @Query(() => [Feedback])
   async feedback(
     @CurrentUser() user: User,
-    @Parent()projectId: string,
+    @Args('projectId') projectId: string,
   ): Promise<Feedback[]> {
     const hasProject = (await this.userService.findAllProject(user?.id)).some(
       (_) => _.project.id === projectId,
     );
     if (!hasProject)
-      throw new UnauthorizedException(
-        'You are not allowed to edit the feedback',
-      );
+      throw new UnauthorizedException('You are not allowed view the feedbacks');
 
     return await this.feedbackService.findAll(projectId);
   }
@@ -62,10 +60,5 @@ export class FeedbackResolver {
   @ResolveField(() => Source)
   async source(@Parent() feedback: Feedback): Promise<Source> {
     return await this.feedbackService.findSource(feedback.id);
-  }
-
-  @ResolveField(() => Source)
-  async project(@Parent() feedback: Feedback): Promise<Project> {
-    return await this.feedbackService.findProject(feedback.id);
   }
 }

@@ -8,6 +8,6 @@ export class ProjectMember {
   @Field(() => UserProjectRole)
   role: 'admin' | 'user';
 
-  @Field()
+  @Field(() => User)
   user: User;
 }

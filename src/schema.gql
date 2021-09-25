@@ -22,11 +22,9 @@ type Feedback {
   content: String!
   createdAt: DateTime!
   emoji: FeedbackEmoji
-  feedback: [Feedback!]!
   id: String!
   metadata: String!
   page: String!
-  project: Project
   projectId: String!
   source: Source
   sourceId: String!
@@ -86,6 +84,7 @@ enum ProjectPlan {
 }
 
 type Query {
+  feedback(projectId: String!): [Feedback!]!
   project(id: String!): Project
   user: User
 }
