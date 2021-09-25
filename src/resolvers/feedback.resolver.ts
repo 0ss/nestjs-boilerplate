@@ -1,5 +1,5 @@
 import { User } from '.prisma/client';
-import { UnauthorizedException } from '@nestjs/common';
+import { UnauthorizedException, UseGuards } from '@nestjs/common';
 import {
   Args,
   Mutation,
@@ -16,6 +16,7 @@ import { CurrentUser } from '../decorators/currentuser.decorator';
 import { Feedback } from '../entities/feedback.entity';
 import { FeedbackService } from '../services/feedback.service';
 import { UserService } from '../services/user.service';
+import { AuthenticationGuard } from '../guards/authentication.guard';
 
 @Resolver(() => Feedback)
 export class FeedbackResolver {
@@ -24,6 +25,7 @@ export class FeedbackResolver {
     private readonly userService: UserService,
   ) {}
 
+  @UseGuards(AuthenticationGuard)
   @Query(() => [Feedback])
   async feedback(
     @CurrentUser() user: User,
@@ -38,6 +40,7 @@ export class FeedbackResolver {
     return await this.feedbackService.findAll(projectId);
   }
 
+  @UseGuards(AuthenticationGuard)
   @Mutation(() => Feedback)
   async updateFeedback(
     @CurrentUser() user: User,
