@@ -2,14 +2,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
-generator nestgraphql {
-  provider = "node ../node_modules/prisma-nestjs-graphql"
-  output   = "../@generated/prisma-nestjs-graphql"
-}
+// generator nestgraphql {
+//   provider = "node ../node_modules/prisma-nestjs-graphql"
+//   output   = "../@generated/prisma-nestjs-graphql"
+// }
 
 datasource db {
   provider = "mysql"
-  url      = "mysql://root@localhost:3306/feedback?schema=public"
+  url      = "mysql://root@localhost:3306/feedbackness?schema=public"
 }
 
 model Feedback {
