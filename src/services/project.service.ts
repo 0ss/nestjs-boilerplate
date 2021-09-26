@@ -24,7 +24,7 @@ export class ProjectService {
         userProject: {
           create: {
             userId,
-            role: 'admin',
+            role: 'admin', // check if I'm admin when creating project.
           },
         },
       },
