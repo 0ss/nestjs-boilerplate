@@ -12,7 +12,7 @@ export class CreateFeedbackInput {
 
   @Field({defaultValue:null})
   emoji?: FeedbackEmoji;
-
+ 
   @Field()
   content: string;
 
