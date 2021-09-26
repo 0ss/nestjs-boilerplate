@@ -35,9 +35,6 @@ describe('FeedbackService', () => {
       const projectId = uuid();
       const feedbacks = feedbackFactory.buildList(30, {
         projectId,
-        project: {
-          id: projectId,
-        },
       });
 
       jest
