@@ -8,7 +8,6 @@ export class AppController {
 
   @Get()
   welcomeApi(): string {
-    this.logger.log('xx');
     return this.appService.welcomeApi();
   }
 
