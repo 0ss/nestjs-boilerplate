@@ -84,7 +84,7 @@ export class UserService {
         userId,
         projectId,
       },
-    }));
+    }))
   }
 
   async adminOfProjectWithId(
