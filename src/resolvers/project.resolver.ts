@@ -39,9 +39,10 @@ export class ProjectResolver {
   ): Promise<Project> {
     const project = await this.projectService.findOne(id);
 
-    if (!project)
+    if (!project){
       throw new NotFoundException(`Project with this id doesn't exist`);
-
+    }
+    
     if (!(await this.userService.hasProjectWithId(user?.id, id)))
       throw new UnauthorizedException('You are not part of this project');
 
