@@ -76,14 +76,13 @@ describe('AuthResolver', () => {
     });
     it('should throw an error when failing to validate credentials ', async () => {
       const loginUserInput = loginUserInputFactory.build();
-      const user = userFactory.build(loginUserInput);
+      const user = userFactory.build();
       jest
         .spyOn(authService, 'validateCredentials')
-        .mockRejectedValueOnce(user);
+        .mockRejectedValueOnce(new UnauthorizedException());
       await expect(async () => {
-        const result = await authResolver.login(loginUserInput);
-        await expect(result).rejects.toThrow(UnauthorizedException);
-      });
+        await authResolver.login(loginUserInput);
+      }).rejects.toThrow(UnauthorizedException);
     });
   });
   describe('loginSocial', () => {
@@ -99,20 +98,24 @@ describe('AuthResolver', () => {
 
     it('should throw an error when social login id is not registerd', async () => {
       const email = 'email@email.com';
-      const user = userFactory.build({ email });
-      jest.spyOn(authService, 'loginSocial').mockRejectedValueOnce(user);
+      const user = userFactory.build();
+      jest
+        .spyOn(authService, 'loginSocial')
+        .mockRejectedValueOnce(new UnauthorizedException());
+
       await expect(async () => {
-        const result = await authResolver.loginSocial(email);
-        await expect(result).rejects.toThrow(UnauthorizedException);
-      });
+        await authResolver.loginSocial(email);
+      }).rejects.toThrow(UnauthorizedException);
     });
   });
   describe('resetPassword', () => {
     it('should return true when creating reset password token ', async () => {
       const email = 'email@email.com';
-      jest.spyOn(authService, 'createResetPasswordToken').mockResolvedValueOnce(true);
-      const result = await authResolver.resetPassword(email)
-      expect(result).toBeTruthy()
+      jest
+        .spyOn(authService, 'createResetPasswordToken')
+        .mockResolvedValueOnce(true);
+      const result = await authResolver.resetPassword(email);
+      expect(result).toBeTruthy();
     });
   });
 });
