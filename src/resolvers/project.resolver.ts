@@ -17,11 +17,11 @@ import {
   UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
-import { UserFromRequest } from '../interfaces/user-from-request.interface';
 import { ProjectMember } from '../entities/projectmember.entity';
 import { AddProjectMemberInput } from '../dto/add-project-member.input';
 import { UserInputError } from 'apollo-server-express';
 import { UserService } from '../services/user.service';
+import { AuthenticationGuard } from '../guards/authentication.guard';
 
 @Resolver(() => Project)
 export class ProjectResolver {
@@ -31,9 +31,10 @@ export class ProjectResolver {
   ) {}
   private readonly logger = new Logger(ProjectResolver.name);
 
+  @UseGuards(AuthenticationGuard)
   @Query(() => Project, { nullable: true })
   async project(
-    @CurrentUser() user: UserFromRequest,
+    @CurrentUser() user: User,
     @Args('id') id: string,
   ): Promise<Project> {
     const project = await this.projectService.findOne(id);
@@ -41,7 +42,7 @@ export class ProjectResolver {
     if (!project)
       throw new NotFoundException(`Project with this id doesn't exist`);
 
-    if (!user?.hasProjectWithId(id))
+    if (!(await this.userService.hasProjectWithId(user?.id, id)))
       throw new UnauthorizedException('You are not part of this project');
 
     return project;
@@ -52,6 +53,7 @@ export class ProjectResolver {
     return await this.projectService.findMembers(project.id);
   }
 
+  @UseGuards(AuthenticationGuard)
   @Mutation(() => Project)
   async createProject(
     @CurrentUser() user: User,
@@ -60,9 +62,10 @@ export class ProjectResolver {
     return await this.projectService.create(createProjectInput, user.id);
   }
 
+  @UseGuards(AuthenticationGuard)
   @Mutation(() => Project)
   async addProjectMember(
-    @CurrentUser() user: UserFromRequest,
+    @CurrentUser() user: User,
     @Args('addProjectMember')
     addProjectMemberInput: AddProjectMemberInput,
   ): Promise<ProjectMember[]> {
@@ -73,7 +76,12 @@ export class ProjectResolver {
     if (!project)
       throw new NotFoundException(`Project with this id doesn't exist`);
 
-    if (!user?.adminOfProjectWithId(addProjectMemberInput.projectId))
+    if (
+      !(await this.userService?.adminOfProjectWithId(
+        user?.id,
+        addProjectMemberInput.projectId,
+      ))
+    )
       throw new UnauthorizedException('Only project admins can remove users');
 
     const userExist = await this.userService.findOneByEmail(

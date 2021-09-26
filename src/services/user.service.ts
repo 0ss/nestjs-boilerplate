@@ -68,12 +68,36 @@ export class UserService {
   }
   async findAllProject(userId: string): Promise<UserProject[]> {
     if (!isValid(userId)) return [];
-    return (await this.prismaService.userProject.findMany({
+    return await this.prismaService.userProject.findMany({
       where: { userId },
       select: {
         project: true,
         role: true,
       },
-    }))
+    });
+  }
+
+  async hasProjectWithId(userId: string, projectId: string): Promise<boolean> {
+    if (!isValid(projectId) || !isValid(userId)) return false;
+    return !!(await this.prismaService.userProject.findFirst({
+      where: {
+        userId,
+        projectId,
+      },
+    }));
+  }
+
+  async adminOfProjectWithId(
+    userId: string,
+    projectId: string,
+  ): Promise<boolean> {
+    if (!isValid(projectId) || !isValid(userId)) return false;
+    return !!(await this.prismaService.userProject.findFirst({
+      where: {
+        userId,
+        projectId,
+        role: 'admin'
+      },
+    }));
   }
 }
