@@ -3,8 +3,10 @@ import { Test, TestingModule } from '@nestjs/testing';
 import {
   createProjectInputFactory,
   projectFactory,
+  projectMemberFactory,
 } from '../../../test/factories/project.factory';
 import { userFactory } from '../../../test/factories/user.factory';
+import { ProjectMember } from '../../entities/projectmember.entity';
 import { PrismaModule } from '../../modules/prisma.module';
 import { UserModule } from '../../modules/user.module';
 import { ProjectService } from '../../services/project.service';
@@ -59,14 +61,20 @@ describe('ProjectResolver', () => {
         await projectResolver.project(user, project.id);
       }).rejects.toThrow(UnauthorizedException);
     });
-    // it('should throw error when project does not exist', async () => {
-    //   const user = userFactory.build();
-    //   const project = projectFactory.build();
-    //   jest.spyOn(projectService, 'findOne').mockResolvedValueOnce(null);
-    //   expect(async () => {
-    //     const result =  await projectResolver.project(user, project.id);
-    //     expect(result).rejects
-    //   })
-    // });
+  });
+  describe('projectMember', () => {
+    it('should return project member', async () => {
+      const project = projectFactory.build();
+      const projectMember = projectMemberFactory.buildList(10)
+      jest.spyOn(projectService, 'findMembers').mockResolvedValueOnce(projectMember);
+      const result = await projectResolver.projectMember(project);
+      expect(result).toBe(projectMember);
+    });
+    it('should return empty array when no project member', async () => {
+      const project = projectFactory.build();
+      jest.spyOn(projectService, 'findMembers').mockResolvedValueOnce([]);
+      const result = await projectResolver.projectMember(project);
+      expect(result).toHaveLength(0)
+    });
   });
 });
