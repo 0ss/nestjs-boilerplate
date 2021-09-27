@@ -1,16 +1,14 @@
-import { PrismaClient } from '.prisma/client';
-import { Logger, RequestMethod, ValidationPipe } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import * as compression from 'compression';
 import * as helmet from 'helmet';
 import { AppModule } from './modules/app.module';
-import { EmailService } from './services/email.service';
 
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const configService = new ConfigService();
-  console.log(configService)
+  console.log('xxxxxxxx')
   const app = await NestFactory.create(AppModule, {});
   app.use(
     helmet({

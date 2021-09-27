@@ -1,4 +1,5 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { CreateFeedbackInput } from '../../dto/create-feedback.input';
 import { AppService } from '../../services/app.service';
 import { FeedbackService } from '../../services/feedback.service';
 import { PrismaService } from '../../services/prisma.service';
@@ -16,8 +17,10 @@ describe('FeedbackController', () => {
     feedbackController = module.get<FeedbackController>(FeedbackController);
   });
 
-  describe('root', () => {
-    it('should return "Hello World!"', () => {
+  describe('collectFeedback', () => {
+    it('should return success true when creating feedback', () => {
+        const feedback = new CreateFeedbackInput()
+        console.log('asd',feedback.type)
       expect(FeedbackController).toBeDefined()
     });
   });

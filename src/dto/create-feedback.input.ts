@@ -7,12 +7,12 @@ export class CreateFeedbackInput {
   @Field()
   projectId: string;
 
-  @Field({defaultValue:'issue'})
-  type: FeedbackType;
+  @Field({ defaultValue: 'issue' })
+  type: FeedbackType = FeedbackType.issue;
 
-  @Field({defaultValue:null})
-  emoji?: FeedbackEmoji;
- 
+  @Field({ defaultValue: null })
+  emoji?: FeedbackEmoji = null;
+
   @Field()
   content: string;
 
