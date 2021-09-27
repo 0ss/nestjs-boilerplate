@@ -8,7 +8,6 @@ import { AppModule } from './modules/app.module';
 async function bootstrap() {
   const logger = new Logger(bootstrap.name);
   const configService = new ConfigService();
-  console.log('xxxxxxxx')
   const app = await NestFactory.create(AppModule, {});
   app.use(
     helmet({

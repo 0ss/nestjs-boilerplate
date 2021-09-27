@@ -1,10 +1,8 @@
-import DeviceDetector from 'device-detector-js';
+import * as DeviceDetector from 'device-detector-js';
 import { Request } from 'express';
-import geoip from 'geoip-country';
-import requestIp from 'request-ip';
+import * as geoip from 'geoip-country';
+const requestIp = require('request-ip');
 import { ReqSource } from '../interfaces/req-source.interface';
-
-const publicIp = require('public-ip');
 
 export const getReqSource = (req: Request): ReqSource => {
   const clientIp = requestIp.getClientIp(req);
