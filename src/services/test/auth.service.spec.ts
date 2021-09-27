@@ -72,7 +72,7 @@ describe('AuthService', () => {
       jest.spyOn(userService, 'findOneBySocialId').mockResolvedValueOnce(null);
       await expect(async () => {
         await authService.loginSocial(user.socialId);
-      }).rejects.toThrow('Email is not registered');
+      }).rejects.toThrow(UnauthorizedException);
     });
   });
 
